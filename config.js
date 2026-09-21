@@ -26,6 +26,6 @@ window.GG_CONFIG = {
     ['Rio Vermelho', '12/14/16'],
     ['Barra da Lagoa', '38']
   ],
-  apiUrl: '',                            // cole aqui o endereço /exec do Google Apps Script
-  exemplo: true                          // troque para false quando o catálogo real estiver na planilha
+  apiUrl: 'https://script.google.com/macros/s/AKfycbwqcwa6lyQf5g_waPp34UlVb7jjjyGOHWfLQ47lUdU3KJK5Gu7AciVwodrRQ0h4P6V-ow/exec',                            // cole aqui o endereço /exec do Google Apps Script
+  exemplo: false                          // troque para false quando o catálogo real estiver na planilha
 };
