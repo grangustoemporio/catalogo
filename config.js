@@ -3,7 +3,7 @@ window.GG_CONFIG = {
   loja: 'Empório Gran Gusto',
   whatsapp: '5548984786837',            // 55 + DDD + número da loja, só números
   enderecoLoja: 'Rod. Armando Calil Bulos, 6640, box 4 – Ingleses, Florianópolis – SC, CEP 88058-001',   // aparece para quem escolhe retirada
-  taxaMadeira: 100,                      // taxa se a tábua de madeira não voltar no próximo dia útil
+  taxaMadeira: 150,                      // taxa se a tábua de madeira não voltar no próximo dia útil
   precoTabua: 50,                        // valor da tábua em si (somado aos itens no orçamento)
   horarioLoja: 'segunda a sábado, das 7h30 às 19h',      // aparece para quem escolhe retirada
   horarioEntrega: 'segunda a sexta, das 9h às 17h30',    // aparece para quem escolhe entrega
