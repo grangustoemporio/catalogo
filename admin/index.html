@@ -316,7 +316,7 @@ let ed=null; // {novo, item, foto, previewSrc}
 const PREPS=[['pedaço','Em pedaço'],['fatiado','Fatiado'],['ralado','Ralado']];
 function abrirEdicao(x){
   const prod = aba==='produtos', tab = aba==='tabua';
-  const it = x ? JSON.parse(JSON.stringify(x)) : (tab ? {id:'',status:'disponivel',tipo:'queijo',grupo:'',nome:'',cobranca:'kg',preco:0,pesoG:0} : prod ? {id:'',status:'disponivel',cat:'',nome:'',desc:'',unid:'kg',preco:0,promo:null,prep:['Em pedaço'],foto:''} : {id:'',status:'disponivel',nome:'',desc:'',pessoas:6,ocasiao:'entrada',itens:[],preco:0,foto:''});
+  const it = x ? JSON.parse(JSON.stringify(x)) : (tab ? {id:'',status:'disponivel',tipo:'queijo',grupo:'',nome:'',cobranca:'kg',preco:0,pesoG:0} : prod ? {id:'',status:'disponivel',cat:'',nome:'',desc:'',unid:'kg',preco:0,promo:null,prep:[],foto:''} : {id:'',status:'disponivel',nome:'',desc:'',pessoas:6,ocasiao:'entrada',itens:[],preco:0,foto:''});
   ed={novo:!x, item:it, prod, tab, prev:it.foto?imgUrl(it.foto,300):''};
   const cats=[...new Set(D.produtos.map(p=>p.cat))];
   const fotoBlk=`<div class="field"><label class="f">Foto (opcional)</label><div class="foto"><div class="prev" id="f-prev">${ed.prev?`<img src="${esc(ed.prev)}" alt="">`:'sem foto'}</div>
@@ -342,7 +342,7 @@ function abrirEdicao(x){
     <div class="row2 field"><div><label class="f" for="f-preco">Preço ${it.unid==='kg'?'por kg':'da unidade'} (R$)</label><input class="in" id="f-preco" inputmode="decimal" value="${it.preco?String(it.preco).replace('.',','):''}" placeholder="0,00"></div>
       <div><label class="f" for="f-promo">Preço de oferta (opcional)</label><input class="in" id="f-promo" inputmode="decimal" value="${it.promo?String(it.promo).replace('.',','):''}" placeholder="deixe vazio se não tem"></div></div>
     <div class="field"><label class="f" for="f-desc">Descrição</label><textarea class="in" id="f-desc" placeholder="Uma ou duas frases">${esc(it.desc)}</textarea></div>
-    <fieldset id="f-preps"><legend>Como o cliente pode pedir (só para produtos por peso)</legend><div class="opts">${PREPS.map(([k,t])=>`<label class="opt"><input type="checkbox" name="prep" value="${t}" ${(it.prep||[]).includes(t)?'checked':''}><span>${t}</span></label>`).join('')}</div></fieldset>
+    <fieldset id="f-preps"><legend>Como o cliente pode pedir (só para produtos por peso)</legend><p class="hint" style="margin:-.2rem 0 .6rem;font-size:.95rem">Para queijos e frios. Bolachas, geleias e outros a granel: deixe tudo desmarcado e o cliente não verá nenhuma pergunta.</p><div class="opts">${PREPS.map(([k,t])=>`<label class="opt"><input type="checkbox" name="prep" value="${t}" ${(it.prep||[]).includes(t)?'checked':''}><span>${t}</span></label>`).join('')}</div></fieldset>
     ${fotoBlk}${status}<div class="err" id="f-err"></div>
     <div class="actions"><button class="btn" data-save>Salvar</button><button class="btn ghost" data-close>Cancelar</button></div>` : `
     <div class="dlg-h"><h3 id="dlg-t">${x?'Editar tábua':'Nova tábua'}</h3><button class="x" data-close aria-label="Fechar">×</button></div>
@@ -422,7 +422,7 @@ $('#dlg').addEventListener('click',async e=>{
     it.unid=$('input[name=unid]:checked').value;
     const pr=numBR($('#f-promo').value); it.promo = pr>0 ? pr : null;
     it.prep = it.unid==='kg' ? [...document.querySelectorAll('input[name=prep]:checked')].map(i=>i.value) : [];
-    if(it.unid==='kg' && !it.prep.length) it.prep=['Em pedaço'];
+
   } else {
     it.pessoas=parseInt($('#f-pess').value,10)||0; if(it.pessoas<1){ er.textContent='Digite para quantas pessoas.'; return; }
     it.ocasiao=$('input[name=oc]:checked').value;
