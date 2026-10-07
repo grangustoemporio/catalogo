@@ -97,8 +97,8 @@ legend{font-weight:700;margin-bottom:.4rem;padding:0}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
 @media(max-width:26rem){.row2{grid-template-columns:1fr}}
 .foto{display:flex;gap:.8rem;align-items:center;flex-wrap:wrap}
-.foto .prev{width:6.5rem;aspect-ratio:4/3;border-radius:.7rem;border:1px dashed var(--line2);background:var(--bg0);overflow:hidden;display:grid;place-items:center;color:var(--muted);font-size:.8rem;text-align:center}
-.foto .prev img{width:100%;height:100%;object-fit:cover}
+.foto .prev{position:relative;width:6.5rem;height:4.875rem;flex:none;border-radius:.7rem;border:1px dashed var(--line2);background:var(--bg0);overflow:hidden;display:grid;place-items:center;color:var(--muted);font-size:.8rem;text-align:center}
+.foto .prev img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover}
 .foto input[type=file]{display:none}
 .actions{display:grid;gap:.6rem;margin-top:.6rem}
 .delbox{margin-top:1.4rem;padding-top:1rem;border-top:1px solid var(--line)}
