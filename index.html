@@ -106,9 +106,11 @@ textarea.in{min-height:5.5rem;resize:vertical}
 .p .tag.falta{background:transparent;color:var(--muted);border:1px solid var(--line2)}
 .p.off{opacity:.62}
 .p .d{color:var(--muted);font-size:.95rem;flex:1}
-.ph{margin:-1rem -1rem .3rem;aspect-ratio:16/10;background:var(--bg1);overflow:hidden;display:grid;place-items:center}
-.ph img{width:100%;height:100%;object-fit:cover;display:block}
-.ph .logo{width:4.2rem;color:var(--cream);opacity:.28}
+/* moldura da foto 16:10: feita com altura por porcentagem da largura (funciona em todo celular; aspect-ratio + height:100% falha em alguns) */
+.ph{position:relative;margin:-1rem -1rem .3rem;flex:none;background:var(--bg1);overflow:hidden}
+.ph::before{content:"";display:block;padding-top:62.5%}
+.ph img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block}
+.ph .logo{position:absolute;top:50%;left:50%;width:4.2rem;height:4.2rem;margin:-2.1rem 0 0 -2.1rem;color:var(--cream);opacity:.28}
 .price{display:flex;flex-wrap:wrap;align-items:baseline;gap:.15rem .6rem}
 .price b{font-size:1.4rem;font-variant-numeric:tabular-nums}
 .price s{color:var(--muted);font-variant-numeric:tabular-nums}
