@@ -657,11 +657,13 @@ function calcTabua(c){
   let pctQ = (q.length - m.length) >= 2 ? 0.65 : 0.60;
   if(!m.length) pctQ = 1; else if(!q.length) pctQ = 0;      // categoria sem itens disponíveis: o peso vai todo para a outra
   const pecas = n => Math.max(1, Math.ceil(n/8));
+  const QTD = {};   // quantidade de cada item (vai para o resumo, a imagem e a mensagem: guia de montagem)
+  const gTxt = kg => { const g = Math.round(kg*100)*10; return g>=1000 ? (g/1000).toLocaleString('pt-BR',{maximumFractionDigits:2})+' kg' : g+' g'; };
   const categoria = (lista, orcKg, pesoPadrao) => {
     let tot = 0, kgUn = 0;
     const porUn = lista.filter(x=>x.cobranca==='un'), porKg = lista.filter(x=>x.cobranca!=='un');
-    porUn.forEach(x=>{ const n=pecas(c.pessoas); kgUn += (x.pesoG||pesoPadrao)/1000*n; tot += n*x.preco; });
-    if(porKg.length){ const cada = Math.max(0, orcKg-kgUn)/porKg.length; porKg.forEach(x=>{ tot += cada*x.preco; }); }
+    porUn.forEach(x=>{ const n=pecas(c.pessoas); kgUn += (x.pesoG||pesoPadrao)/1000*n; tot += n*x.preco; QTD[x.id]=n+(n>1?' peças':' peça'); });
+    if(porKg.length){ const cada = Math.max(0, orcKg-kgUn)/porKg.length; porKg.forEach(x=>{ tot += cada*x.preco; QTD[x.id]=gTxt(cada); }); }
     return tot;
   };
   let sub = categoria(q, totalKg*pctQ, 125) + categoria(m, totalKg*(1-pctQ), 100);
@@ -669,8 +671,8 @@ function calcTabua(c){
   const f = c.fruta.map(tItem).filter(Boolean); f.forEach(x=>{ sub += x.preco * nB; });   // 1 unidade de cada fruta por tábua
   const cm = []; Object.entries(c.complemento).forEach(([id,n])=>{ const x=tItem(id); if(x){ sub += x.preco*n; cm.push({x,n}); } });
   const itens = [
-    ...q.map(x=>({grupo:GRUPOS_TXT.queijo, nome:x.nome})), ...m.map(x=>({grupo:GRUPOS_TXT.embutido, nome:x.nome})),
-    ...f.map(x=>({grupo:GRUPOS_TXT.fruta, nome:x.nome})), ...cm.map(o=>({grupo:GRUPOS_TXT.complemento, nome:o.x.nome+(o.n>1?' x'+o.n:'')}))
+    ...q.map(x=>({grupo:GRUPOS_TXT.queijo, nome:x.nome+' · '+QTD[x.id]})), ...m.map(x=>({grupo:GRUPOS_TXT.embutido, nome:x.nome+' · '+QTD[x.id]})),
+    ...f.map(x=>({grupo:GRUPOS_TXT.fruta, nome:x.nome+' · '+nB+(nB>1?' porções':' porção')})), ...cm.map(o=>({grupo:GRUPOS_TXT.complemento, nome:o.x.nome+(o.n>1?' x'+o.n:'')}))
   ];
   return {itens, total:granRound(taxaMontagem(c.pessoas, c.ocasiao) + extraMDF(c.base, c.pessoas) + sub), kg:totalKg, nTabuas:nB};
 }
