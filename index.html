@@ -671,8 +671,8 @@ function calcTabua(c){
   const f = c.fruta.map(tItem).filter(Boolean); f.forEach(x=>{ sub += x.preco * nB; });   // 1 unidade de cada fruta por tábua
   const cm = []; Object.entries(c.complemento).forEach(([id,n])=>{ const x=tItem(id); if(x){ sub += x.preco*n; cm.push({x,n}); } });
   const itens = [
-    ...q.map(x=>({grupo:GRUPOS_TXT.queijo, nome:x.nome+' · '+QTD[x.id]})), ...m.map(x=>({grupo:GRUPOS_TXT.embutido, nome:x.nome+' · '+QTD[x.id]})),
-    ...f.map(x=>({grupo:GRUPOS_TXT.fruta, nome:x.nome+' · '+nB+(nB>1?' porções':' porção')})), ...cm.map(o=>({grupo:GRUPOS_TXT.complemento, nome:o.x.nome+(o.n>1?' x'+o.n:'')}))
+    ...q.map(x=>({grupo:GRUPOS_TXT.queijo, nome:x.nome})), ...m.map(x=>({grupo:GRUPOS_TXT.embutido, nome:x.nome})),
+    ...f.map(x=>({grupo:GRUPOS_TXT.fruta, nome:x.nome})), ...cm.map(o=>({grupo:GRUPOS_TXT.complemento, nome:o.x.nome+(o.n>1?' x'+o.n:'')}))
   ];
   return {itens, total:granRound(taxaMontagem(c.pessoas, c.ocasiao) + extraMDF(c.base, c.pessoas) + sub), kg:totalKg, nTabuas:nB};
 }
@@ -768,7 +768,7 @@ function passoFinal(){
   const c=resumoTb(), d=tb.data;
   const grupos={}; c.itens.forEach(i=>{ (grupos[i.grupo]=grupos[i.grupo]||[]).push(i.nome); });
   return cabecalho('Resumo e orçamento')+`
-    <div class="resumo glass"><h4>Tábua ${esc(c.nome)} · ${c.pessoas} pessoas · ${ocTxt(c.ocasiao)}</h4>
+    <div class="resumo glass"><h4>Tábua ${esc(c.nome)} · ${c.pessoas} pessoas · ${ocTxt(c.ocasiao)}${c.kg?' · '+kgTxt(c.kg):''}${(c.nTabuas||1)>1?' · '+c.nTabuas+' tábuas':''}</h4>
       <dl>${Object.entries(grupos).map(([g,l])=>`<dt>${esc(g)}</dt><dd>${l.map(esc).join(', ')}</dd>`).join('')}</dl>
       <div class="tot"><span>Valor do pedido</span><b>${brl(c.total)}</b></div>
       <p class="hint">${AVISO_TABUA}</p></div>
@@ -842,7 +842,7 @@ function validaFinal(){
 function addTabua(){
   if(!validaFinal()) return;
   const c=resumoTb();
-  carrinho.push({uid:Date.now()+Math.random(), tipo:'t', nome:c.nome, origem:c.origem, pessoas:c.pessoas, ocasiao:c.ocasiao, nTabuas:c.nTabuas||1, base:tb.base, data:tb.data, itens:c.itens, total:c.total, obs:tb.obs});
+  carrinho.push({uid:Date.now()+Math.random(), tipo:'t', nome:c.nome, origem:c.origem, pessoas:c.pessoas, ocasiao:c.ocasiao, nTabuas:c.nTabuas||1, kg:c.kg||0, base:tb.base, data:tb.data, itens:c.itens, total:c.total, obs:tb.obs});
   salvarCarrinho(); renderBar(); tb=novoTb(); setView('produtos'); abrirPedido(); toast('Tábua adicionada ao pedido.');
 }
 
@@ -862,7 +862,7 @@ function cartaoOrcamento(c){
   const box=(t,v)=>`<div style="flex:1;background:#FFFFFF;border:1px solid #E8D9C5;border-radius:10px;padding:12px;text-align:center"><div style="font:700 9px Atkinson Hyperlegible,Arial,sans-serif;letter-spacing:2px;color:#C6243B;text-transform:uppercase;margin-bottom:3px">${t}</div><div style="font:700 14px Atkinson Hyperlegible,Arial,sans-serif;color:#004541">${v}</div></div>`;
   return `<div style="background:#004541;padding:26px 36px;text-align:center"><img src="${logoUrl()}" style="width:60%;max-width:360px;display:block;margin:0 auto" alt="Gran Gusto"><div style="height:2px;background:#C6243B;margin-top:16px"></div></div>
   <div style="padding:22px 30px 18px;background:#FFF2E3;font-family:Atkinson Hyperlegible,Arial,sans-serif">
-    <div style="display:flex;gap:12px;margin-bottom:14px">${box('Base',tb.base==='Madeira'?'Tábua de madeira':tb.base==='MDF'?'Tábua de MDF':'A definir')}${box('Pessoas',c.pessoas+' pessoas · '+ocTxt(c.ocasiao))}</div>
+    <div style="display:flex;gap:12px;margin-bottom:14px">${box('Base',tb.base==='Madeira'?'Tábua de madeira':tb.base==='MDF'?'Tábua de MDF':'A definir')}${box('Pessoas',c.pessoas+' pessoas · '+ocTxt(c.ocasiao))}${c.kg?box('Total',kgTxt(c.kg)+' · '+(c.nTabuas||1)+((c.nTabuas||1)>1?' tábuas':' tábua')):''}</div>
     <div style="background:#004541;border-radius:12px;padding:18px;text-align:center;margin-bottom:16px"><div style="font-size:10px;letter-spacing:3px;color:rgba(255,242,227,.7);text-transform:uppercase;margin-bottom:4px">Valor estimado</div><div style="font:400 50px/1 Italiana,Georgia,serif;color:#FFF2E3">${brl(c.total)}</div><div style="font-size:11px;color:rgba(255,242,227,.65);margin-top:6px">Valor sujeito a confirmação pela loja</div></div>
     <div style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:14px">${cols}</div>
     <div style="background:#FFFFFF;border:1px solid #E8D9C5;border-radius:10px;padding:11px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><span style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#5D6F6A;font-weight:700">Data desejada</span><span style="font:400 17px Italiana,Georgia,serif;color:#004541">${esc(d)}</span></div>
@@ -877,10 +877,10 @@ async function gerarImagem(){
   try{
     await carregaH2C();
     card=document.createElement('div');
-    card.style.cssText='position:fixed;left:-9999px;top:0;width:640px;background:#FFF2E3';
+    card.style.cssText='position:absolute;left:-10000px;top:0;width:640px;background:#FFF2E3';
     card.innerHTML=cartaoOrcamento(c); document.body.appendChild(card);
     if(document.fonts&&document.fonts.ready) await document.fonts.ready;
-    const canvas=await window.html2canvas(card,{scale:2,useCORS:true,backgroundColor:'#FFF2E3',logging:false});
+    const canvas=await window.html2canvas(card,{scale:2,width:640,windowWidth:800,scrollX:0,scrollY:0,useCORS:true,backgroundColor:'#FFF2E3',logging:false});
     const url=canvas.toDataURL('image/png');
     const prev=$('#exp-prev'); if(prev) prev.innerHTML=`<img src="${url}" alt="Orçamento da tábua"><p class="hint">Se o download não começar, segure o dedo sobre a imagem para salvar.</p>`;
     const blob=await new Promise(r=>canvas.toBlob(r,'image/png'));
@@ -960,7 +960,7 @@ function montaMensagem(){
   const linhas=[];
   carrinho.forEach((i,n)=>{
     if(i.tipo==='t'){
-      linhas.push(`${n+1}) TÁBUA ${i.nome.toUpperCase()} (${i.origem||'Portfólio'}) - ${i.pessoas} pessoas, ${ocTxt(i.ocasiao)}${(i.nTabuas||1)>1?' ('+i.nTabuas+' tábuas)':''} = ${brl(i.total)}`);
+      linhas.push(`${n+1}) TÁBUA ${i.nome.toUpperCase()} (${i.origem||'Portfólio'}) - ${i.pessoas} pessoas, ${ocTxt(i.ocasiao)}${i.kg?', '+kgTxt(i.kg):''}${(i.nTabuas||1)>1?' ('+i.nTabuas+' tábuas)':''} = ${brl(i.total)}`);
       linhas.push(`   Base: ${i.base==='Madeira'?'Madeira (de acordo com as condições de devolução: devolver até o próximo dia útil; se não devolvida, cobrança de '+brl(CFG.taxaMadeira)+')':'MDF (fica com o cliente)'}`);
       linhas.push(`   Para o dia: ${dataBR(i.data)}`);
       itensTxt(i.itens).forEach(l=>linhas.push('   '+l));
