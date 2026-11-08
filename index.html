@@ -352,7 +352,8 @@ const CFG = Object.assign({
   whatsapp: '5548984786837',            // 55 + DDD + número, só dígitos
   enderecoLoja: 'Rod. Armando Calil Bulos, 6640, box 4 – Ingleses, Florianópolis – SC, CEP 88058-001',
   taxaMadeira: 150,                      // valor cobrado se a tábua de madeira não for devolvida até o próximo dia útil
-  precoTabua: 50,                        // valor da tábua em si (somado aos itens no orçamento)
+  precoTabua: 50,                        // regra antiga: usada só se taxaPorTabua não estiver preenchida
+  taxaPorTabua: null, taxaPorPessoaEntrada: 0, taxaPorPessoaPrincipal: 0, acrescimoMDF: 0, pessoasPorTabua: 15,
   horarioLoja: 'segunda a sábado, das 7h30 às 19h',
   horarioEntrega: 'segunda a sexta, das 9h às 17h30',
   bairros: [['Ingleses','9'],['Santinho','12/14'],['Vargem','12'],['Cachoeira','12/14'],['Ponta das Canas','17/20'],['Lagoinha','22'],['Praia Brava','22'],['Canasvieiras','18'],['Jurerê','28'],['Forte','30'],['Vargem Grande','12/14/16'],['Vargem Pequena','17/20'],['Ratones','25/30'],['Rio Vermelho','12/14/16'],['Barra da Lagoa','38']],
@@ -370,7 +371,13 @@ const ESPESSURAS=['Normal','Fina','Grossa'];
 const RALADOS=['Em pó','Desfiado'];
 
 const AVISO_TABUA = 'Inclui todos os itens escolhidos e a opção de tábua selecionada. O valor apresentado é o valor final do seu pedido.';
-const BOARD_PRICE = +CFG.precoTabua || 50;   // valor da tábua em si, somado aos itens
+const BOARD_PRICE = +CFG.precoTabua || 50;   // regra antiga (valor fixo por tábua)
+const nTabuas = p => Math.max(1, Math.ceil((+p||1) / (+CFG.pessoasPorTabua || 15)));   // 1 tábua a cada N pessoas
+const extraMDF = (base, p) => base==='MDF' ? nTabuas(p) * (+CFG.acrescimoMDF || 0) : 0;
+function taxaMontagem(p, ocasiao){   // regra nova: valor por tábua + valor por pessoa
+  if(CFG.taxaPorTabua==null || CFG.taxaPorTabua==='') return BOARD_PRICE * nTabuas(p);
+  return nTabuas(p) * (+CFG.taxaPorTabua) + p * (+(ocasiao==='principal' ? CFG.taxaPorPessoaPrincipal : CFG.taxaPorPessoaEntrada) || 0);
+}
 const granRound = v => Math.round((Math.floor(v/10)*10+9.90)*100)/100;   // arredondamento Gran Gusto: sempre termina em X9,90
 
 /* ============ UTILIDADES ============ */
@@ -484,7 +491,7 @@ function entrar(){
   $('#demo').hidden = !CFG.exemplo || !!CFG.apiUrl;
   $('#ola').textContent = 'Olá, ' + cliente.nome.split(' ')[0] + '!';
   window.scrollTo(0,0);
-  setView('produtos'); renderTudo(); carregarDados();
+  setView(location.hash==='#tabuas' ? 'tabua' : 'produtos'); renderTudo(); carregarDados();
 }
 
 /* ============ NAVEGAÇÃO ============ */
@@ -658,13 +665,14 @@ function calcTabua(c){
     return tot;
   };
   let sub = categoria(q, totalKg*pctQ, 125) + categoria(m, totalKg*(1-pctQ), 100);
-  const f = c.fruta.map(tItem).filter(Boolean); f.forEach(x=>{ sub += x.preco; });
+  const nB = nTabuas(c.pessoas);
+  const f = c.fruta.map(tItem).filter(Boolean); f.forEach(x=>{ sub += x.preco * nB; });   // 1 unidade de cada fruta por tábua
   const cm = []; Object.entries(c.complemento).forEach(([id,n])=>{ const x=tItem(id); if(x){ sub += x.preco*n; cm.push({x,n}); } });
   const itens = [
     ...q.map(x=>({grupo:GRUPOS_TXT.queijo, nome:x.nome})), ...m.map(x=>({grupo:GRUPOS_TXT.embutido, nome:x.nome})),
     ...f.map(x=>({grupo:GRUPOS_TXT.fruta, nome:x.nome})), ...cm.map(o=>({grupo:GRUPOS_TXT.complemento, nome:o.x.nome+(o.n>1?' x'+o.n:'')}))
   ];
-  return {itens, total:granRound(BOARD_PRICE+sub), kg:totalKg};
+  return {itens, total:granRound(taxaMontagem(c.pessoas, c.ocasiao) + extraMDF(c.base, c.pessoas) + sub), kg:totalKg, nTabuas:nB};
 }
 function itensTxt(itens){
   const g={}; itens.forEach(i=>{ (g[i.grupo]=g[i.grupo]||[]).push(i.nome); });
@@ -684,10 +692,10 @@ function sanitizaTb(){
 function resumoTb(){
   if(tb.modo==='portfolio'){
     const x=PORTFOLIO.find(p=>p.id===tb.preset);
-    return {nome:x.nome, pessoas:x.pessoas, ocasiao:x.ocasiao, origem:'Portfólio', itens:(x.itens||[]).map(n=>({grupo:'Itens',nome:n})), total:x.preco, kg:0};
+    return {nome:x.nome, pessoas:x.pessoas, ocasiao:x.ocasiao, origem:'Portfólio', itens:(x.itens||[]).map(n=>({grupo:'Itens',nome:n})), total:x.preco + extraMDF(tb.base, x.pessoas), kg:0, nTabuas:nTabuas(x.pessoas)};
   }
-  const c=calcTabua({pessoas:tb.pessoas, ocasiao:tb.ocasiao, queijo:tb.sel.queijo, embutido:tb.sel.embutido, fruta:tb.sel.fruta, complemento:tb.sel.complemento});
-  return {nome:'Personalizada', pessoas:tb.pessoas, ocasiao:tb.ocasiao, origem:'Montada pelo cliente', itens:c.itens, total:c.total, kg:c.kg};
+  const c=calcTabua({pessoas:tb.pessoas, ocasiao:tb.ocasiao, queijo:tb.sel.queijo, embutido:tb.sel.embutido, fruta:tb.sel.fruta, complemento:tb.sel.complemento, base:tb.base});
+  return {nome:'Personalizada', pessoas:tb.pessoas, ocasiao:tb.ocasiao, origem:'Montada pelo cliente', itens:c.itens, total:c.total, kg:c.kg, nTabuas:c.nTabuas};
 }
 function renderTabua(){
   const foco = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.key : null;
@@ -697,7 +705,7 @@ function renderTabua(){
       <button class="big" data-act="modo-port" data-key="mp"><b>Escolher do portfólio</b><span>Tábuas prontas. É só escolher a sua e a data.</span></button>
       <button class="big" data-act="modo-custom" data-key="mc"><b>Montar do meu jeito</b><span>Você escolhe os queijos, os embutidos, as frutas e os complementos, e já vê o orçamento.</span></button>
     </div>`;
-  else if(p==='portfolio') h=`<div class="tb-h"><h3>Nosso portfólio</h3><p>Todas podem ser servidas na tábua de madeira ou de MDF, pelo mesmo valor.</p></div>
+  else if(p==='portfolio') h=`<div class="tb-h"><h3>Nosso portfólio</h3><p>Todas podem ser servidas na tábua de madeira ou de MDF${(+CFG.acrescimoMDF||0)>0?' (a MDF fica com você, com acréscimo de '+brl(+CFG.acrescimoMDF)+' por tábua)':', pelo mesmo valor'}.</p></div>
     <div class="port">${PORTFOLIO.length?PORTFOLIO.map(x=>{
       const off=x.status==='falta';
       const ph = x.foto ? `<div class="ph" data-fb="1"><img src="${esc(imgUrl(x.foto,640))}" alt="Tábua ${esc(x.nome)}" loading="lazy" decoding="async"></div>` : `<div class="ph"><div class="logo mono"></div></div>`;
@@ -767,7 +775,7 @@ function passoFinal(){
         <label class="opt"><input type="radio" name="base" value="Madeira" ${tb.base==='Madeira'?'checked':''}><span>Tábua de madeira</span></label>
         <label class="opt"><input type="radio" name="base" value="MDF" ${tb.base==='MDF'?'checked':''}><span>Tábua de MDF</span></label>
       </div>
-      <p class="mesmo">O valor é o mesmo nas duas opções.</p>
+      <p class="mesmo">${(+CFG.acrescimoMDF||0)>0?'A MDF fica com você: acréscimo de '+brl(+CFG.acrescimoMDF)+' por tábua, já somado ao valor quando escolhida.':'O valor é o mesmo nas duas opções.'}${(c.nTabuas||1)>1?' Para '+c.pessoas+' pessoas montamos '+c.nTabuas+' tábuas.':''}</p>
       ${tb.base==='Madeira'?`<div class="madeira">A tábua de madeira é cedida como <strong>cortesia</strong> para deixar sua experiência ainda mais especial.<br>Pedimos apenas que ela seja devolvida até o <strong>próximo dia útil</strong> após o evento. Caso não seja possível realizar a devolução, será cobrado o valor de <strong>${brl(CFG.taxaMadeira)}</strong> referente à tábua.
         <label class="consent" for="tb-ack" style="margin:.7rem 0 0"><input type="checkbox" id="tb-ack" ${tb.ack?'checked':''}><span>Estou ciente e de acordo com as condições de devolução.</span></label></div>`:''}
       ${tb.base==='MDF'?'<div class="madeira mdf">A tábua de MDF Gran Gusto fica com você, de lembrança. Não precisa devolver.</div>':''}
@@ -832,7 +840,7 @@ function validaFinal(){
 function addTabua(){
   if(!validaFinal()) return;
   const c=resumoTb();
-  carrinho.push({uid:Date.now()+Math.random(), tipo:'t', nome:c.nome, origem:c.origem, pessoas:c.pessoas, ocasiao:c.ocasiao, base:tb.base, data:tb.data, itens:c.itens, total:c.total, obs:tb.obs});
+  carrinho.push({uid:Date.now()+Math.random(), tipo:'t', nome:c.nome, origem:c.origem, pessoas:c.pessoas, ocasiao:c.ocasiao, nTabuas:c.nTabuas||1, base:tb.base, data:tb.data, itens:c.itens, total:c.total, obs:tb.obs});
   salvarCarrinho(); renderBar(); tb=novoTb(); setView('produtos'); abrirPedido(); toast('Tábua adicionada ao pedido.');
 }
 
@@ -950,7 +958,7 @@ function montaMensagem(){
   const linhas=[];
   carrinho.forEach((i,n)=>{
     if(i.tipo==='t'){
-      linhas.push(`${n+1}) TÁBUA ${i.nome.toUpperCase()} (${i.origem||'Portfólio'}) - ${i.pessoas} pessoas, ${ocTxt(i.ocasiao)} = ${brl(i.total)}`);
+      linhas.push(`${n+1}) TÁBUA ${i.nome.toUpperCase()} (${i.origem||'Portfólio'}) - ${i.pessoas} pessoas, ${ocTxt(i.ocasiao)}${(i.nTabuas||1)>1?' ('+i.nTabuas+' tábuas)':''} = ${brl(i.total)}`);
       linhas.push(`   Base: ${i.base==='Madeira'?'Madeira (de acordo com as condições de devolução: devolver até o próximo dia útil; se não devolvida, cobrança de '+brl(CFG.taxaMadeira)+')':'MDF (fica com o cliente)'}`);
       linhas.push(`   Para o dia: ${dataBR(i.data)}`);
       itensTxt(i.itens).forEach(l=>linhas.push('   '+l));
