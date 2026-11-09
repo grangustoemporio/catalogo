@@ -353,7 +353,7 @@ const CFG = Object.assign({
   enderecoLoja: 'Rod. Armando Calil Bulos, 6640, box 4 – Ingleses, Florianópolis – SC, CEP 88058-001',
   taxaMadeira: 150,                      // valor cobrado se a tábua de madeira não for devolvida até o próximo dia útil
   precoTabua: 50,                        // regra antiga: usada só se taxaPorTabua não estiver preenchida
-  taxaPorTabua: null, taxaPorPessoaEntrada: 0, taxaPorPessoaPrincipal: 0, acrescimoMDF: 0, pessoasPorTabua: 15,
+  taxaPorTabua: null, taxaPorPessoaEntrada: 0, taxaPorPessoaPrincipal: 0, acrescimoMDF: 0, pessoasPorTabua: 15, kgPorTabua: 1.8,
   horarioLoja: 'segunda a sábado, das 7h30 às 19h',
   horarioEntrega: 'segunda a sexta, das 9h às 17h30',
   bairros: [['Ingleses','9'],['Santinho','12/14'],['Vargem','12'],['Cachoeira','12/14'],['Ponta das Canas','17/20'],['Lagoinha','22'],['Praia Brava','22'],['Canasvieiras','18'],['Jurerê','28'],['Forte','30'],['Vargem Grande','12/14/16'],['Vargem Pequena','17/20'],['Ratones','25/30'],['Rio Vermelho','12/14/16'],['Barra da Lagoa','38']],
@@ -372,11 +372,11 @@ const RALADOS=['Em pó','Desfiado'];
 
 const AVISO_TABUA = 'Inclui todos os itens escolhidos e a opção de tábua selecionada. O valor apresentado é o valor final do seu pedido.';
 const BOARD_PRICE = +CFG.precoTabua || 50;   // regra antiga (valor fixo por tábua)
-const nTabuas = p => Math.max(1, Math.ceil((+p||1) / (+CFG.pessoasPorTabua || 15)));   // 1 tábua a cada N pessoas
-const extraMDF = (base, p) => base==='MDF' ? nTabuas(p) * (+CFG.acrescimoMDF || 0) : 0;
+const nTabuas = (p, oc) => { p=+p||1; const kg=p*(oc==='principal'?220:120)/1000; return Math.max(1, Math.ceil(p/(+CFG.pessoasPorTabua||15)), Math.ceil(kg/(+CFG.kgPorTabua||1.8)-1e-9)); };   // 1 tábua a cada N pessoas ou X kg (o que der mais)
+const extraMDF = (base, p, oc) => base==='MDF' ? nTabuas(p, oc) * (+CFG.acrescimoMDF || 0) : 0;
 function taxaMontagem(p, ocasiao){   // regra nova: valor por tábua + valor por pessoa
-  if(CFG.taxaPorTabua==null || CFG.taxaPorTabua==='') return BOARD_PRICE * nTabuas(p);
-  return nTabuas(p) * (+CFG.taxaPorTabua) + p * (+(ocasiao==='principal' ? CFG.taxaPorPessoaPrincipal : CFG.taxaPorPessoaEntrada) || 0);
+  if(CFG.taxaPorTabua==null || CFG.taxaPorTabua==='') return BOARD_PRICE * nTabuas(p, ocasiao);
+  return nTabuas(p, ocasiao) * (+CFG.taxaPorTabua) + p * (+(ocasiao==='principal' ? CFG.taxaPorPessoaPrincipal : CFG.taxaPorPessoaEntrada) || 0);
 }
 const granRound = v => Math.round((Math.floor(v/10)*10+9.90)*100)/100;   // arredondamento Gran Gusto: sempre termina em X9,90
 
@@ -667,14 +667,14 @@ function calcTabua(c){
     return tot;
   };
   let sub = categoria(q, totalKg*pctQ, 125) + categoria(m, totalKg*(1-pctQ), 100);
-  const nB = nTabuas(c.pessoas);
+  const nB = nTabuas(c.pessoas, c.ocasiao);
   const f = c.fruta.map(tItem).filter(Boolean); f.forEach(x=>{ sub += x.preco * nB; });   // 1 unidade de cada fruta por tábua
   const cm = []; Object.entries(c.complemento).forEach(([id,n])=>{ const x=tItem(id); if(x){ sub += x.preco*n; cm.push({x,n}); } });
   const itens = [
     ...q.map(x=>({grupo:GRUPOS_TXT.queijo, nome:x.nome})), ...m.map(x=>({grupo:GRUPOS_TXT.embutido, nome:x.nome})),
     ...f.map(x=>({grupo:GRUPOS_TXT.fruta, nome:x.nome})), ...cm.map(o=>({grupo:GRUPOS_TXT.complemento, nome:o.x.nome+(o.n>1?' x'+o.n:'')}))
   ];
-  return {itens, total:granRound(taxaMontagem(c.pessoas, c.ocasiao) + extraMDF(c.base, c.pessoas) + sub), kg:totalKg, nTabuas:nB};
+  return {itens, total:granRound(taxaMontagem(c.pessoas, c.ocasiao) + extraMDF(c.base, c.pessoas, c.ocasiao) + sub), kg:totalKg, nTabuas:nB};
 }
 function itensTxt(itens){
   const g={}; itens.forEach(i=>{ (g[i.grupo]=g[i.grupo]||[]).push(i.nome); });
@@ -694,7 +694,7 @@ function sanitizaTb(){
 function resumoTb(){
   if(tb.modo==='portfolio'){
     const x=PORTFOLIO.find(p=>p.id===tb.preset);
-    return {nome:x.nome, pessoas:x.pessoas, ocasiao:x.ocasiao, origem:'Portfólio', itens:(x.itens||[]).map(n=>({grupo:'Itens',nome:n})), total:x.preco + extraMDF(tb.base, x.pessoas), kg:0, nTabuas:nTabuas(x.pessoas)};
+    return {nome:x.nome, pessoas:x.pessoas, ocasiao:x.ocasiao, origem:'Portfólio', itens:(x.itens||[]).map(n=>({grupo:'Itens',nome:n})), total:x.preco + extraMDF(tb.base, x.pessoas, x.ocasiao), kg:0, nTabuas:nTabuas(x.pessoas, x.ocasiao)};
   }
   const c=calcTabua({pessoas:tb.pessoas, ocasiao:tb.ocasiao, queijo:tb.sel.queijo, embutido:tb.sel.embutido, fruta:tb.sel.fruta, complemento:tb.sel.complemento, base:tb.base});
   return {nome:'Personalizada', pessoas:tb.pessoas, ocasiao:tb.ocasiao, origem:'Montada pelo cliente', itens:c.itens, total:c.total, kg:c.kg, nTabuas:c.nTabuas};
