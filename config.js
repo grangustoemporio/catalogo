@@ -13,6 +13,10 @@ window.GG_CONFIG = {
   acrescimoMDF: 0,                         // acréscimo por tábua quando a base é MDF (0 = mesmo valor da madeira)
   pessoasPorTabua: 15,                   // acima disso sai mais uma tábua (frutas e taxa por tábua multiplicam)
   kgPorTabua: 1.8,                       // ou a cada X kg de queijos e embutidos (vale o que der mais tábuas)
+  // ---- FIM DE ANO (vale todo ano) ----
+  festasDatas: ['12-24', '12-31'],       // datas de festa (mês-dia): pedidos para elas só até festasPedidosAte
+  festasPedidosAte: '12-10',             // último dia para pedir as datas acima (as outras datas seguem normais)
+  festasPaginaDesde: '11-01',            // a página de Natal aparece a partir deste dia até festasPedidosAte
   horarioLoja: 'segunda a sábado, das 7h30 às 19h',      // aparece para quem escolhe retirada
   horarioEntrega: 'segunda a sexta, das 9h às 17h30',    // aparece para quem escolhe entrega
   // Taxas de entrega por bairro (saída dos Ingleses). Mais de um valor = varia com o endereço, ex.: '12/14'.
