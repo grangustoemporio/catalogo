@@ -406,6 +406,8 @@ const totalPedido = () => carrinho.reduce((s,i)=>s+precoLinha(i),0);
 const temPeso = () => carrinho.some(i=>i.tipo!=='t' && prod(i.pid).unid==='kg');
 const emFalta = i => i.tipo!=='t' && prod(i.pid).status==='falta';
 const dataBR = iso => { const [y,m,d]=iso.split('-'); const dt=new Date(+y,+m-1,+d); return d+'/'+m+'/'+y+' ('+dt.toLocaleDateString('pt-BR',{weekday:'long'})+')'; };
+const FESTA={datas:(window.GG_CONFIG||{}).festasDatas||['12-24','12-31'], ate:(window.GG_CONFIG||{}).festasPedidosAte||'12-10'};
+const festaFechada=v=>{ const h=new Date(Date.now()-3*36e5).toISOString().slice(0,10); return !!v && FESTA.datas.includes(v.slice(5)) && h>v.slice(0,4)+'-'+FESTA.ate; };
 function amanhaISO(){ const d=new Date(); d.setDate(d.getDate()+1); const p=n=>String(n).padStart(2,'0'); return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate()); }
 const imgUrl = (f,w) => /^https?:/.test(f) ? f : 'https://drive.google.com/thumbnail?id='+encodeURIComponent(f)+'&sz=w'+w;
 let toastT;
@@ -837,6 +839,7 @@ function validaFinal(){
   if(!tb.base){ er.textContent='Escolha a base: madeira ou MDF.'; return false; }
   if(tb.base==='Madeira' && !tb.ack){ er.textContent='Marque que está de acordo com as condições de devolução da tábua de madeira.'; return false; }
   if(!tb.data || tb.data<amanhaISO()){ er.textContent='Escolha uma data a partir de amanhã.'; return false; }
+  if(festaFechada(tb.data)){ er.textContent='Os pedidos para 24/12 e 31/12 encerraram em 10/12. Escolha outra data.'; return false; }
   er.textContent=''; return true;
 }
 function addTabua(){
