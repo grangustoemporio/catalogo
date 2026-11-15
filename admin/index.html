@@ -100,11 +100,17 @@ legend{font-weight:700;margin-bottom:.4rem;padding:0}
 .foto .prev{position:relative;width:6.5rem;height:4.875rem;flex:none;border-radius:.7rem;border:1px dashed var(--line2);background:var(--bg0);overflow:hidden;display:grid;place-items:center;color:var(--muted);font-size:.8rem;text-align:center}
 .foto .prev img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover}
 .foto input[type=file]{display:none}
-.fotos{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:.6rem}
-.fotos .prev .capa{position:absolute;left:.25rem;top:.25rem;background:var(--red);color:#fff;font-size:.65rem;font-weight:700;padding:.05rem .35rem;border-radius:.4rem}
-.fotos .prev button{position:absolute;width:1.7rem;height:1.7rem;border-radius:50%;border:0;background:#000b;color:#fff;font-size:.9rem;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0}
-.fotos .prev .rm{right:.25rem;top:.25rem}
-.fotos .prev .mk{right:.25rem;bottom:.25rem}
+.fotos{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:.7rem}
+.fotos .ft{width:8.5rem;display:flex;flex-direction:column;gap:.35rem}
+.fotos .im{position:relative;width:100%;padding-top:62.5%;border-radius:.6rem;overflow:hidden;background:var(--bg0);border:1px solid var(--line2)}
+.fotos .im img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover}
+.fotos .capa{position:absolute;left:.3rem;top:.3rem;background:var(--red);color:#fff;font-size:.7rem;font-weight:700;padding:.1rem .45rem;border-radius:.4rem}
+.fotos .acs{display:flex;gap:.3rem}
+.fotos .acs button{flex:1;min-height:2.2rem;border-radius:.6rem;border:1px solid var(--line2);background:var(--bg2);color:var(--cream);font-size:.8rem;font-weight:700;cursor:pointer;padding:.2rem .3rem}
+.fotos .acs button.rm{border-color:var(--red);color:#FFA69A}
+.fotos .acs button:disabled{opacity:.45;cursor:default}
+.fotos .vazio{width:8.5rem;padding-top:5.3rem;position:relative;border:1px dashed var(--line2);border-radius:.6rem;color:var(--muted);font-size:.8rem}
+.fotos .vazio span{position:absolute;inset:0;display:grid;place-items:center}
 .actions{display:grid;gap:.6rem;margin-top:.6rem}
 .delbox{margin-top:1.4rem;padding-top:1rem;border-top:1px solid var(--line)}
 .btn.del{width:100%;color:var(--err);border-color:transparent;background:transparent;font-size:.9rem}
@@ -326,7 +332,7 @@ function abrirEdicao(x){
   ed.fotos = prod ? fotosDe(it.foto) : [];
   ed.urls = {};
   const cats=[...new Set(D.produtos.map(p=>p.cat))];
-  const fotoBlk = prod ? `<div class="field"><label class="f">Fotos (até ${MAX_FOTOS}; a primeira é a capa)</label><div class="fotos" id="f-fotos"></div><div class="foto"><label class="btn sec" for="f-file" style="cursor:pointer">Adicionar fotos</label><input id="f-file" type="file" accept="image/*" multiple></div><p class="hint" id="f-msg">Pode escolher várias de uma vez. Cada foto é cortada no formato do catálogo e recebe o selo Gran Gusto. Toque em ★ para virar capa.</p></div>` : `<div class="field"><label class="f">Foto (opcional)</label><div class="foto"><div class="prev" id="f-prev">${ed.prev?`<img src="${esc(ed.prev)}" alt="">`:'sem foto'}</div>
+  const fotoBlk = prod ? `<div class="field"><label class="f">Fotos (até ${MAX_FOTOS}; a primeira é a capa)</label><div class="fotos" id="f-fotos"></div><div class="foto"><label class="btn sec" for="f-file" style="cursor:pointer">Adicionar fotos</label><input id="f-file" type="file" accept="image/*" multiple></div><p class="hint" id="f-msg">Pode escolher várias de uma vez. Cada foto é cortada no formato do catálogo e recebe o selo Gran Gusto. Use ★ Capa para escolher a capa e ✕ Excluir para tirar uma foto.</p></div>` : `<div class="field"><label class="f">Foto (opcional)</label><div class="foto"><div class="prev" id="f-prev">${ed.prev?`<img src="${esc(ed.prev)}" alt="">`:'sem foto'}</div>
       <label class="btn sec" for="f-file" style="cursor:pointer">Tirar ou escolher foto</label><input id="f-file" type="file" accept="image/*"><button class="btn ghost" type="button" data-rmfoto>Remover</button></div><p class="hint" id="f-msg">A foto é reduzida automaticamente para abrir rápido no celular do cliente.</p></div>`;
   const status=`<div class="field"><label class="f" for="f-status">Situação</label><select class="in" id="f-status">${[['disponivel','Tem'],['falta','Em falta'],['oculto','Oculto (não aparece para o cliente)']].map(([v,t])=>`<option value="${v}" ${it.status===v?'selected':''}>${t}</option>`).join('')}</select></div>`;
   const gruposTab=[...new Set(D.tabua.filter(i=>i.grupo).map(i=>i.grupo))];
@@ -379,7 +385,7 @@ const fotosDe = f => String(f||'').split(/[,\s]+/).filter(Boolean);
 function desenhaFotos(){
   const box=$('#f-fotos'); if(!box) return;
   ed.item.foto = ed.fotos.join(',');
-  box.innerHTML = ed.fotos.length ? ed.fotos.map((id,i)=>`<div class="prev"><img src="${esc(ed.urls[id]||imgUrl(id,300))}" alt="">${i===0?'<span class="capa">CAPA</span>':`<button type="button" class="mk" data-capa="${i}" title="Usar como capa" aria-label="Usar como capa">★</button>`}<button type="button" class="rm" data-rmf="${i}" title="Remover foto" aria-label="Remover foto">✕</button></div>`).join('') : '<div class="prev">sem foto</div>';
+  box.innerHTML = ed.fotos.length ? ed.fotos.map((id,i)=>`<div class="ft"><div class="im"><img src="${esc(ed.urls[id]||imgUrl(id,300))}" alt="Foto ${i+1}">${i===0?'<span class="capa">CAPA</span>':''}</div><div class="acs"><button type="button" data-capa="${i}" ${i===0?'disabled':''} title="Usar esta foto como capa">★ Capa</button><button type="button" class="rm" data-rmf="${i}" title="Excluir esta foto">✕ Excluir</button></div></div>`).join('') : '<div class="vazio"><span>sem foto</span></div>';
 }
 /* FOTO PADRÃO DO CATÁLOGO: recorta em 16:10 (1200x750, mesmo formato do card) e aplica o selo Gran Gusto
    no canto inferior direito. Vale para toda foto enviada pelo painel (produtos e portfólio). */
