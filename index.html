@@ -110,6 +110,15 @@ textarea.in{min-height:5.5rem;resize:vertical}
 .ph{position:relative;margin:-1rem -1rem .3rem;flex:none;background:var(--bg1);overflow:hidden}
 .ph::before{content:"";display:block;padding-top:62.5%}
 .ph img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block}
+.ph .gs{position:absolute;inset:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.ph .gs::-webkit-scrollbar{display:none}
+.ph .gs img{position:relative;flex:0 0 100%;scroll-snap-align:center}
+.ph .ga{position:absolute;top:50%;margin-top:-1.4rem;width:2.8rem;height:2.8rem;border-radius:50%;border:0;background:rgba(0,31,29,.72);color:var(--cream);font-size:1.5rem;line-height:1;display:grid;place-items:center;cursor:pointer;padding:0;z-index:2}
+.ph .ga.l{left:.5rem}.ph .ga.r{right:.5rem}
+.ph .gd{position:absolute;left:0;right:0;bottom:.55rem;display:flex;justify-content:center;gap:.35rem;pointer-events:none;z-index:2}
+.ph .gd i{width:.55rem;height:.55rem;border-radius:50%;background:rgba(255,242,227,.5);box-shadow:0 0 2px #000}
+.ph .gd i.on{background:var(--cream)}
+.ph .gn{position:absolute;left:.55rem;top:.55rem;background:rgba(0,31,29,.78);color:var(--cream);font-size:.8rem;font-weight:700;padding:.15rem .5rem;border-radius:.6rem;z-index:2}
 .ph .logo{position:absolute;top:50%;left:50%;width:4.2rem;height:4.2rem;margin:-2.1rem 0 0 -2.1rem;color:var(--cream);opacity:.28}
 .price{display:flex;flex-wrap:wrap;align-items:baseline;gap:.15rem .6rem}
 .price b{font-size:1.4rem;font-variant-numeric:tabular-nums}
@@ -412,7 +421,12 @@ function amanhaISO(){ const d=new Date(); d.setDate(d.getDate()+1); const p=n=>S
 const imgUrl = (f,w) => /^https?:/.test(f) ? f : 'https://drive.google.com/thumbnail?id='+encodeURIComponent(f)+'&sz=w'+w;
 let toastT;
 function toast(msg){ const t=$('#toast'); t.textContent=msg; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,3800); }
-document.addEventListener('error',e=>{ const t=e.target; if(t&&t.tagName==='IMG'){ const ph=t.closest('.ph'); if(ph){ if(ph.dataset.fb) ph.innerHTML='<div class="logo mono"></div>'; else ph.remove(); } } },true);
+/* galeria de fotos do produto: setas e arrastar para o lado */
+function galAtual(ph){ const g=ph.querySelector('.gs'); const n=g.children.length; const i=Math.max(0,Math.min(n-1,Math.round(g.scrollLeft/g.clientWidth))); ph.querySelectorAll('.gd i').forEach((d,k)=>d.classList.toggle('on',k===i)); const gn=ph.querySelector('.gn'); if(gn) gn.textContent=(i+1)+'/'+n; return i; }
+document.addEventListener('click',e=>{ const b=e.target.closest('[data-ga]'); if(!b) return; e.preventDefault(); const ph=b.closest('[data-gal]'); const g=ph.querySelector('.gs'); const n=g.children.length; let i=galAtual(ph)+(+b.dataset.ga); if(i<0) i=n-1; if(i>=n) i=0; g.scrollTo({left:i*g.clientWidth,behavior:'smooth'}); });
+document.addEventListener('scroll',e=>{ const g=e.target; if(g&&g.classList&&g.classList.contains('gs')){ clearTimeout(g._t); g._t=setTimeout(()=>galAtual(g.closest('[data-gal]')),80); } },true);
+document.addEventListener('error',e=>{ const t=e.target; if(t&&t.tagName==='IMG'&&t.parentNode&&t.parentNode.classList&&t.parentNode.classList.contains('gs')){ const ph=t.closest('[data-gal]'); const k=[...t.parentNode.children].indexOf(t); t.remove(); const d=ph.querySelectorAll('.gd i')[k]; if(d) d.remove(); if(!ph.querySelector('.gs img')) ph.remove(); else galAtual(ph); return; } },true);
+document.addEventListener('error',e=>{ const t=e.target; if(t&&t.tagName==='IMG'){ if(!t.isConnected) return; const ph=t.closest('.ph'); if(ph){ if(ph.dataset.fb) ph.innerHTML='<div class="logo mono"></div>'; else ph.remove(); } } },true);
 
 /* ============ ESTADO ============ */
 let cliente = store.get('gg_cliente', null);
@@ -522,7 +536,10 @@ $('#busca').addEventListener('input',e=>{ busca=sa(e.target.value.trim()); rende
 function card(p){
   const off = p.status==='falta';
   const preco = p.unid==='kg' ? `<b>${brl(precoUn(p))}</b><span>por kg</span>` : `<b>${brl(precoUn(p))}</b>`;
-  const foto = p.foto ? `<div class="ph"><img src="${esc(imgUrl(p.foto,520))}" alt="" loading="lazy" decoding="async"></div>` : '';
+  const fs = String(p.foto||'').split(/[,\s]+/).filter(Boolean);
+  const foto = fs.length>1
+    ? `<div class="ph" data-gal><div class="gs">${fs.map((f,i)=>`<img src="${esc(imgUrl(f,520))}" alt="${esc(p.nome)} - foto ${i+1} de ${fs.length}" loading="lazy" decoding="async">`).join('')}</div><span class="gn">1/${fs.length}</span><button type="button" class="ga l" data-ga="-1" aria-label="Foto anterior">‹</button><button type="button" class="ga r" data-ga="1" aria-label="Próxima foto">›</button><div class="gd">${fs.map((f,i)=>`<i class="${i?'':'on'}"></i>`).join('')}</div></div>`
+    : fs.length ? `<div class="ph"><img src="${esc(imgUrl(fs[0],520))}" alt="" loading="lazy" decoding="async"></div>` : '';
   return `<article class="p ${off?'off':''}">
     ${foto}
     ${off?'<span class="tag falta">Em falta hoje</span>':(p.promo?'<span class="tag">Oferta</span>':'')}
