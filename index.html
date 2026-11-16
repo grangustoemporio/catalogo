@@ -211,6 +211,57 @@ legend{font-weight:700;margin-bottom:.5rem;padding:0}
 @media(max-width:26rem){.row2,.row3{grid-template-columns:1fr}.hello h2{font-size:1.8rem}.top .logo{height:2.3rem}}
 #toast{position:fixed;left:50%;bottom:6.5rem;transform:translateX(-50%);background:var(--cream);color:var(--bg2);padding:.8rem 1.2rem;border-radius:99px;font-weight:700;z-index:60;max-width:calc(100% - 2rem);text-align:center;box-shadow:0 8px 30px #0008}
 @media (prefers-reduced-motion:no-preference){.btn,.chip,.tog,.big,.p{transition:background .15s,border-color .15s,box-shadow .2s}}
+
+/* ===== Natal e Ano Novo: aparece sozinho de festasPaginaDesde até catalogoFestaAte (config.js). Teste: ?festa=on ou ?festa=off ===== */
+.nt{display:none}
+body.natal .nt{display:block}
+body.natal .nt-off{display:none!important}
+body.natal::after{opacity:1;background:radial-gradient(1.5px 1.5px at 12% 18%,rgba(246,221,176,.55),transparent 60%),radial-gradient(1px 1px at 28% 62%,rgba(246,221,176,.45),transparent 60%),radial-gradient(1.5px 1.5px at 47% 9%,rgba(255,242,227,.5),transparent 60%),radial-gradient(1px 1px at 66% 41%,rgba(246,221,176,.4),transparent 60%),radial-gradient(2px 2px at 83% 14%,rgba(246,221,176,.5),transparent 60%),radial-gradient(1px 1px at 92% 70%,rgba(255,242,227,.4),transparent 60%),radial-gradient(1.5px 1.5px at 6% 84%,rgba(246,221,176,.4),transparent 60%),radial-gradient(1px 1px at 55% 88%,rgba(255,242,227,.35),transparent 60%);background-size:100% 100%}
+.nt-fita{background:linear-gradient(90deg,#8E1428,#C6243B 50%,#8E1428);color:#FFF2E3;text-align:center;font-size:.92rem;padding:.6rem 1rem;letter-spacing:.02em;line-height:1.35}
+.nt-fita b{color:#F6DDB0}
+.nt-ramo{display:block;width:150px;height:50px;margin:0 0 .1rem}
+.nt-ouro{background:linear-gradient(180deg,#FFF2E3 30%,#E9C9A0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.login-hero .nt-ey{color:#F6DDB0}
+.nt-hero{display:none;grid-template-columns:1.1fr 1fr;gap:1.8rem;align-items:center;padding:1.3rem;margin-bottom:1.4rem;border-radius:1.4rem;border:1px solid rgba(233,201,160,.45);background:radial-gradient(40rem 16rem at 0% 0%,rgba(198,36,59,.22),transparent 60%),linear-gradient(180deg,rgba(255,242,227,.07),rgba(255,242,227,.02))}
+body.natal .nt-hero{display:grid}
+.nt-hero .eyebrow{color:#F6DDB0}
+.nt-hero h3{font-size:clamp(2rem,5.5vw,3rem);line-height:1.05;margin:.4rem 0 .7rem}
+.nt-hero p.lead{color:var(--muted);max-width:30rem}
+.nt-ctas{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.1rem}
+.nt-ctas .btn{flex:1 1 13rem}
+.btn.nt-btn{background:#C6243B;border-color:#C6243B;color:#FFF2E3}
+.btn.nt-btn:hover{box-shadow:0 0 0 4px rgba(198,36,59,.25),0 0 28px rgba(198,36,59,.35)}
+.nt-cont{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
+.nt-cont div{min-width:4.4rem;text-align:center;border:1px solid rgba(233,201,160,.45);border-radius:.8rem;padding:.45rem .5rem;background:rgba(198,36,59,.12)}
+.nt-cont b{display:block;font:400 1.8rem/1 var(--display);color:#F6DDB0}
+.nt-cont span{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.nt-micro{font-size:.88rem;color:var(--muted);margin-top:.5rem}
+.nt-micro b{color:var(--cream)}
+.nt-fim{margin-top:1rem;padding:.8rem 1rem;border-radius:.8rem;border:1px solid rgba(246,221,176,.45);background:rgba(198,36,59,.16);font-weight:700}
+.nt-foto{position:relative;border-radius:1.2rem;overflow:hidden;aspect-ratio:1/1;border:2px solid rgba(233,201,160,.55);box-shadow:0 0 0 6px rgba(198,36,59,.18),0 30px 60px -30px rgba(0,0,0,.7);background:var(--bg1)}
+.nt-foto img{width:100%;height:100%;object-fit:cover;display:block}
+.nt-foto .logo{position:absolute;top:50%;left:50%;width:5rem;height:5rem;margin:-2.5rem 0 0 -2.5rem;color:var(--cream);opacity:.25}
+.nt-selo{position:absolute;top:.9rem;left:.9rem;z-index:2;background:#C6243B;color:#FFF2E3;font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.35rem .7rem;border-radius:99px;box-shadow:0 6px 14px rgba(0,0,0,.25)}
+.nt-ocas{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin:0 0 1.4rem}
+.nt-ocas div{padding:.9rem;border-radius:1rem;border:1px solid rgba(233,201,160,.3);background:linear-gradient(180deg,rgba(198,36,59,.10),rgba(255,242,227,.03))}
+.nt-ocas b{display:block;font:400 1.25rem var(--display);color:#F6DDB0;margin-bottom:.2rem}
+.nt-ocas span{font-size:.88rem;color:var(--muted)}
+.nt-gal{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin:0 0 1.4rem}
+.nt-gal img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:.9rem;border:1px solid rgba(233,201,160,.3);display:block}
+.nt-pres{display:none;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;padding:1.1rem 1.3rem;margin-bottom:1.4rem;border-radius:1.2rem;border:1px solid rgba(233,201,160,.45);background:linear-gradient(135deg,rgba(198,36,59,.18),rgba(0,69,65,.5))}
+body.natal .nt-pres{display:flex}
+.nt-pres h3{font-size:1.7rem}
+.nt-pres p{color:var(--muted);margin-top:.2rem;max-width:36rem}
+.p .tag.nt-tag{background:#C6243B;border:1px solid rgba(246,221,176,.5)}
+body.natal .port .p{border-color:rgba(233,201,160,.35)}
+body.natal .view-b[aria-pressed="true"]{box-shadow:0 0 0 2px rgba(198,36,59,.55)}
+@media(max-width:46rem){
+  body.natal .nt-hero{grid-template-columns:1fr;padding:1rem}
+  .nt-foto{order:-1;aspect-ratio:4/3}
+  .nt-ocas{grid-template-columns:1fr 1fr}
+  .nt-gal{grid-template-columns:1fr 1fr}
+}
+body.natal .nt-ocas,body.natal .nt-gal{display:grid}
 </style>
 
 <div id="app">
@@ -218,8 +269,11 @@ legend{font-weight:700;margin-bottom:.5rem;padding:0}
   <section id="tela-login" hidden>
     <div class="login-hero">
       <div class="logo stack" role="img" aria-label="Gran Gusto Empório"></div>
-      <h1>O melhor da mesa, escolhido a dedo.</h1>
-      <p>Queijos, frios, geleias, cachaças, licores e tábuas de frios.</p>
+      <div class="nt"><svg class="nt-ramo" viewBox="0 0 120 40" aria-hidden="true"><g fill="none" stroke="#E9C9A0" stroke-width="1.2" stroke-linecap="round"><path d="M4 30C30 22 60 18 116 10"/><path d="M20 26l-6-8M20 26l-2 9M36 23l-5-9M36 23l0 10M52 20l-3-9M52 20l2 9M68 17l-2-9M68 17l3 8M84 15l-1-8M84 15l4 7M100 12l1-7M100 12l5 6"/></g><g fill="#C6243B"><circle cx="44" cy="27" r="2.6"/><circle cx="49" cy="29" r="2.2"/><circle cx="92" cy="20" r="2.4"/></g></svg><div class="eyebrow nt-ey">Natal e Ano Novo</div></div>
+      <h1 class="nt-off">O melhor da mesa, escolhido a dedo.</h1>
+      <h1 class="nt nt-ouro">Um fim de ano com o melhor da mesa.</h1>
+      <p class="nt-off">Queijos, frios, geleias, cachaças, licores e tábuas de frios.</p>
+      <p class="nt">Tábuas prontas para a ceia e o réveillon, queijos e frios fracionados na hora, cachaças, licores e presentes.</p>
     </div>
     <form class="login-card glass" id="form-login" novalidate>
       <h2>Bem-vindo(a)!</h2>
@@ -275,9 +329,35 @@ legend{font-weight:700;margin-bottom:.5rem;padding:0}
       </div>
 
       <div id="view-produtos">
-        <div class="cta glass">
+        <section class="nt-hero" aria-label="Fim de ano Gran Gusto">
+          <div>
+            <svg class="nt-ramo" viewBox="0 0 120 40" aria-hidden="true"><g fill="none" stroke="#E9C9A0" stroke-width="1.2" stroke-linecap="round"><path d="M4 30C30 22 60 18 116 10"/><path d="M20 26l-6-8M20 26l-2 9M36 23l-5-9M36 23l0 10M52 20l-3-9M52 20l2 9M68 17l-2-9M68 17l3 8M84 15l-1-8M84 15l4 7M100 12l1-7M100 12l5 6"/></g><g fill="#C6243B"><circle cx="44" cy="27" r="2.6"/><circle cx="49" cy="29" r="2.2"/><circle cx="92" cy="20" r="2.4"/></g></svg>
+            <div class="eyebrow" id="nt-ey">Natal e Ano Novo</div>
+            <h3 class="nt-ouro">A tábua que reúne todo mundo à mesa neste fim de ano</h3>
+            <p class="lead">Tábuas prontas para 4, 7 e 10 pessoas, montadas no dia com queijos e frios fracionados na hora. Chegam prontas para servir, e você aproveita a festa.</p>
+            <div class="nt-ctas"><button class="btn nt-btn" data-nt="prontas">Ver tábuas prontas</button><button class="btn sec" data-nt="montar">Montar a minha</button></div>
+            <div id="nt-prazo">
+              <div class="nt-cont" aria-label="Tempo restante para encomendar"><div><b id="nt-d">0</b><span>dias</span></div><div><b id="nt-h">0</b><span>horas</span></div><div><b id="nt-m">0</b><span>min</span></div></div>
+              <p class="nt-micro">para encerrar os pedidos de tábuas para <b>24 e 31 de dezembro</b> · as outras datas seguem normalmente</p>
+            </div>
+            <p class="nt-fim" id="nt-fim" hidden></p>
+          </div>
+          <div class="nt-foto"><span class="nt-selo">Edição fim de ano</span><div class="logo mono"></div><img id="nt-img" alt="Tábua Gran Gusto com queijos, frios, figos, morangos e uvas" hidden></div>
+        </section>
+        <div class="nt nt-ocas">
+          <div><b>Ceia de Natal</b><span>Entrada elegante enquanto a ceia fica pronta.</span></div>
+          <div><b>Réveillon</b><span>Combina com espumante até a virada.</span></div>
+          <div><b>Confraternização</b><span>Serve todo mundo sem ninguém na cozinha.</span></div>
+          <div><b>Presente</b><span>Na base MDF, a tábua fica com quem recebe.</span></div>
+        </div>
+        <div class="nt nt-gal" id="nt-gal" hidden></div>
+        <div class="cta glass nt-off">
           <div><h3>Tábuas de frios</h3><p>Escolha uma pronta ou monte a sua, na madeira ou no MDF.</p></div>
           <button class="btn" data-goto="tabua">Montar minha tábua</button>
+        </div>
+        <div class="nt-pres">
+          <div><h3>Presentes de fim de ano</h3><p>Uma tábua na base MDF Gran Gusto, cachaças, licores, mel e geleias: presentes que se comem e ficam na lembrança.</p></div>
+          <button class="btn nt-btn" data-nt="prontas">Tábua para presentear</button>
         </div>
         <div class="search">
           <label class="f" for="busca">Procurar produto</label>
@@ -723,14 +803,14 @@ function renderTabua(){
   const el=$('#tabua'); let h=''; const p=tb.passo;
   if(p==='inicio') h=`<div class="tb-h"><h3>Monte sua tábua de frios</h3><p>Escolha uma tábua pronta do nosso portfólio ou monte a sua e já veja o valor.</p></div>
     <div class="big-opts">
-      <button class="big" data-act="modo-port" data-key="mp"><b>Escolher do portfólio</b><span>Tábuas prontas. É só escolher a sua e a data.</span></button>
+      <button class="big" data-act="modo-port" data-key="mp"><b>${NATAL?'Tábuas prontas de fim de ano':'Escolher do portfólio'}</b><span>Tábuas prontas. É só escolher a sua e a data.</span></button>
       <button class="big" data-act="modo-custom" data-key="mc"><b>Montar do meu jeito</b><span>Você escolhe os queijos, os embutidos, as frutas e os complementos, e já vê o orçamento.</span></button>
     </div>`;
-  else if(p==='portfolio') h=`<div class="tb-h"><h3>Nosso portfólio</h3><p>Todas podem ser servidas na tábua de madeira ou de MDF${(+CFG.acrescimoMDF||0)>0?' (a MDF fica com você, com acréscimo de '+brl(+CFG.acrescimoMDF)+' por tábua)':', pelo mesmo valor'}.</p></div>
+  else if(p==='portfolio') h=`<div class="tb-h">${NATAL?'<p class="eyebrow" style="color:#F6DDB0">Natal e Ano Novo</p>':''}<h3>${NATAL?'Tábuas prontas de fim de ano':'Nosso portfólio'}</h3><p>Todas podem ser servidas na tábua de madeira ou de MDF${(+CFG.acrescimoMDF||0)>0?' (a MDF fica com você, com acréscimo de '+brl(+CFG.acrescimoMDF)+' por tábua)':', pelo mesmo valor'}.</p></div>
     <div class="port">${PORTFOLIO.length?PORTFOLIO.map(x=>{
       const off=x.status==='falta';
       const ph = x.foto ? `<div class="ph" data-fb="1"><img src="${esc(imgUrl(x.foto,640))}" alt="Tábua ${esc(x.nome)}" loading="lazy" decoding="async"></div>` : `<div class="ph"><div class="logo mono"></div></div>`;
-      return `<article class="p ${off?'off':''}">${ph}<h4>${esc(x.nome)}</h4><p class="eyebrow">Para ${x.pessoas} pessoas · ${ocTxt(x.ocasiao)}</p><p class="d">${esc(x.desc||'')}</p>${(x.itens&&x.itens.length)?`<p class="hint">${esc(x.itens.join(', '))}</p>`:''}<div class="price"><b>${brl(x.preco)}</b></div>${off?'<button class="btn block" disabled>Indisponível no momento</button>':`<button class="btn block" data-act="preset:${esc(x.id)}" data-key="pr-${esc(x.id)}">Escolher esta</button>`}</article>`;
+      return `<article class="p ${off?'off':''}">${ph}${NATAL&&!off?'<span class="tag nt-tag">Edição fim de ano</span>':''}<h4>${esc(x.nome)}</h4><p class="eyebrow">Para ${x.pessoas} pessoas · ${ocTxt(x.ocasiao)}</p><p class="d">${esc(x.desc||'')}</p>${(x.itens&&x.itens.length)?`<p class="hint">${esc(x.itens.join(', '))}</p>`:''}<div class="price"><b>${brl(x.preco)}</b></div>${off?'<button class="btn block" disabled>Indisponível no momento</button>':`<button class="btn block" data-act="preset:${esc(x.id)}" data-key="pr-${esc(x.id)}">Escolher esta</button>`}</article>`;
     }).join(''):'<p class="empty">Nosso portfólio será publicado em breve. Enquanto isso, monte a sua tábua do jeito que preferir.</p>'}</div>
     <div class="nav2"><button class="btn ghost" data-act="voltar">Voltar</button></div>`;
   else if(p==='quem') h=passoQuem();
@@ -1025,6 +1105,57 @@ $('#pe-copiar').onclick=async()=>{
   try{ await navigator.clipboard.writeText(montaMensagem()); toast('Mensagem copiada. Cole no WhatsApp da loja.'); }
   catch(e){ toast('Não foi possível copiar. Use o botão do WhatsApp.'); }
 };
+
+/* ============ NATAL E ANO NOVO (config.js: festasPaginaDesde até catalogoFestaAte; teste: ?festa=on / ?festa=off) ============ */
+const hojeSP = () => new Date(Date.now()-3*36e5).toISOString().slice(0,10);
+const NATAL = (function(){
+  const q = new URLSearchParams(location.search).get('festa');
+  if(q==='on') return true; if(q==='off') return false;
+  const md = hojeSP().slice(5), de = CFG.festasPaginaDesde||'11-01', ate = CFG.catalogoFestaAte||'01-01';
+  return de<=ate ? (md>=de && md<=ate) : (md>=de || md<=ate);
+})();
+document.body.classList.toggle('natal', NATAL);
+if(NATAL){
+  const fita = document.createElement('div'); fita.className='nt-fita'; fita.id='nt-fita';
+  document.getElementById('app').prepend(fita);
+  const h = hojeSP(), Y = +h.slice(0,4), md = h.slice(5);
+  const fim = new Date(Y+'-'+FESTA.ate+'T23:59:59-03:00');
+  const tick = () => {
+    const ms = fim.getTime()-Date.now();
+    if(md>='11-01' && ms>0){
+      const d=Math.floor(ms/864e5), hh=Math.floor(ms%864e5/36e5), m=Math.floor(ms%36e5/6e4);
+      $('#nt-d').textContent=d; $('#nt-h').textContent=hh; $('#nt-m').textContent=m;
+      $('#nt-ey').textContent='Natal e Ano Novo · Pedidos para 24 e 31/12 até 10/12';
+      fita.innerHTML='Natal e Réveillon · Tábuas para 24 e 31/12: pedidos até <b>10 de dezembro</b> · '+(d>0?'faltam '+d+' dia'+(d>1?'s':''):'último dia!');
+      return;
+    }
+    $('#nt-prazo').hidden=true; const f=$('#nt-fim'); f.hidden=false;
+    if(md>='11-01'){
+      f.textContent='Os pedidos de tábuas para 24 e 31/12 foram encerrados. As outras datas seguem normalmente, com 1 dia de antecedência.';
+      $('#nt-ey').textContent='Boas festas';
+      fita.innerHTML='Feliz Natal e um próspero Ano Novo · Tábuas para outras datas: peça com <b>1 dia de antecedência</b>';
+    } else {
+      f.textContent='Que '+Y+' traga mesa farta e boas companhias. Obrigado por estar com a Gran Gusto!';
+      $('#nt-ey').textContent='Feliz Ano Novo';
+      fita.innerHTML='<b>Feliz '+Y+'!</b> · Obrigado por mais um ano com a Gran Gusto';
+    }
+  };
+  tick(); setInterval(tick, 30000);
+  document.addEventListener('click', e=>{
+    const b=e.target.closest('[data-nt]'); if(!b) return;
+    if(b.dataset.nt==='prontas'){ tb=Object.assign(novoTb(),{modo:'portfolio',passo:'portfolio'}); }
+    else { tb=Object.assign(novoTb(),{modo:'custom',passo:'quem'}); }
+    setView('tabua');
+  });
+  /* fotos das tábuas: vêm da página de tábuas (mesmo site), para não pesar o catálogo */
+  fetch('../tabuas/').then(r=>r.text()).then(t=>{
+    const doc=new DOMParser().parseFromString(t,'text/html'), src=id=>{ const i=doc.getElementById(id); return i && i.getAttribute('src'); };
+    const hero=src('im-hero'); if(hero){ const im=$('#nt-img'); im.src=hero; im.hidden=false; }
+    const g=$('#nt-gal'), al=['Tábua com rosa de salame, uvas e morangos','Tábua com figos, presunto cru e brie','Tábua com kiwi, morangos, brie e frios','Duas tábuas com frios, uvas e figos'];
+    g.innerHTML=['im-g1','im-g2','im-g5','im-g6'].map((id,k)=>{ const s=src(id); return s?`<img src="${s}" alt="${al[k]}" loading="lazy">`:''; }).join('');
+    if(g.children.length) g.hidden=false;
+  }).catch(()=>{});
+}
 
 mostrar();
 </script>
