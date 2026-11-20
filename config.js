@@ -18,7 +18,18 @@ window.GG_CONFIG = {
   festasPedidosAte: '12-10',             // último dia para pedir as datas acima (as outras datas seguem normais)
   festasPaginaDesde: '11-01',            // a página de Natal aparece a partir deste dia até festasPedidosAte
   catalogoFestaAte: '01-01',             // o catálogo fica com o visual de Natal/Ano Novo de festasPaginaDesde até este dia (depois volta ao normal sozinho)
-  horarioLoja: 'segunda a sábado, das 7h30 às 19h',      // aparece para quem escolhe retirada
+  // ---- VITRINES DO INÍCIO (as "Ofertas da semana" aparecem sozinhas quando há produto em oferta) ----
+  // Para trocar os produtos de uma vitrine, troque os nomes (iguais aos do catálogo). Faltando nome, entram os primeiros do departamento.
+  // "ver" é o departamento aberto no botão "Ver tudo" (ou 'Presentes').
+  vitrines: [
+    { sobre: 'Escolhidos pelo Empório', titulo: 'Queijos da casa', ver: 'Queijos',
+      produtos: ['Gouda Holandês', 'Brie Francês Paysan Breton', 'Gorgonzola Dinamarquês', 'Parmesão Faixa Azul 12 Meses'] },
+    { sobre: 'Fim de ano', titulo: 'Para presentear', ver: 'Presentes',
+      produtos: ['Licor Creme Doce de Leite com Pistache 750 ml', 'Cachaça Envelhecida Amburana 700 ml', 'Creme de Pistache Predilecta 220 g', 'Kit Licor Bylaardt'] }
+  ],
+  presentesCategorias: ['Licores', 'Cachaças'],          // departamentos que entram inteiros em "Presentes"
+  presentesPalavras: ['mel ', 'geleia', 'pistache', 'kit '],   // e produtos de outros departamentos com estas palavras no nome
+  horarioLoja:'segunda a sábado, das 7h30 às 19h',      // aparece para quem escolhe retirada
   horarioEntrega: 'segunda a sexta, das 9h às 17h30',    // aparece para quem escolhe entrega
   // Taxas de entrega por bairro (saída dos Ingleses). Mais de um valor = varia com o endereço, ex.: '12/14'.
   // Para mudar um valor, troque o número. Para tirar um bairro, apague a linha. Para incluir, copie uma linha.

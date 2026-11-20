@@ -73,63 +73,187 @@ textarea.in{min-height:5.5rem;resize:vertical}
   .login-card{justify-self:end;padding:2rem 1.8rem}
 }
 
-/* ---------- loja ---------- */
+/* ---------- loja (esqueleto novo: topo, banners, departamentos, vitrines) ---------- */
 .demo{background:rgba(198,36,59,.18);color:var(--cream);text-align:center;padding:.5rem 1rem;font-size:.9rem;border-bottom:1px solid rgba(198,36,59,.5)}
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(0,31,29,.72);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-.top-in{max-width:72rem;margin:0 auto;padding:.6rem 1rem;display:flex;align-items:center;gap:1rem}
-.top .logo{height:2.6rem;color:var(--cream);margin-right:auto}
-.tools{display:flex;gap:.4rem}
-.tools .btn{min-height:2.6rem;padding:.2rem .85rem;background:transparent;border-color:var(--line2);color:var(--cream)}
-.tools .btn:hover{background:var(--glass);box-shadow:none}
-.wrap{max-width:72rem;margin:0 auto;padding:1rem 1rem 8rem}
-.hello{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:.2rem 1rem;margin:.6rem 0 1rem}
-.hello h2{font-size:2.1rem}
-.hello button{background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;min-height:2.75rem;padding:0 .3rem}
-.views{display:grid;grid-template-columns:1fr 1fr;gap:.3rem;padding:.3rem;margin-bottom:1.2rem;border:1px solid var(--line);border-radius:99px;background:var(--glass)}
-.view-b{min-height:3rem;border-radius:99px;border:0;background:transparent;color:var(--cream);font-weight:700;cursor:pointer}
-.view-b[aria-pressed="true"]{background:var(--cream);color:var(--bg2)}
-.cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;padding:1.2rem 1.3rem;margin-bottom:1.4rem}
-.cta h3{font-size:1.9rem;text-transform:uppercase;letter-spacing:.06em}
-.cta p{color:var(--muted);margin-top:.2rem}
-.search{margin-bottom:.9rem}
-.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.2rem}
-.chip{min-height:2.6rem;padding:.3rem .95rem;border-radius:99px;border:1.5px solid var(--line2);background:transparent;cursor:pointer;font-weight:700}
-.chip:hover{background:var(--glass)}
-.chip[aria-pressed="true"]{background:var(--cream);border-color:var(--cream);color:var(--bg2)}
-.sec-t{display:flex;align-items:baseline;gap:.8rem;margin:1.8rem 0 .8rem}
-.sec-t h3{font-size:1.7rem;text-transform:uppercase;letter-spacing:.08em}
-.sec-t span{color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,18.5rem),1fr));gap:.9rem}
-.p{background:linear-gradient(180deg,rgba(255,242,227,.07),rgba(255,242,227,.025));border:1px solid var(--line);border-radius:1.1rem;padding:1rem;display:flex;flex-direction:column;gap:.5rem;overflow:hidden}
+.top{position:sticky;top:0;z-index:20;background:rgba(0,31,29,.94);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.top-in{max-width:72rem;margin:0 auto;padding:.55rem .85rem .7rem;display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"menu logo cart" "busca busca busca";align-items:center;gap:.55rem .6rem}
+.ic-btn{position:relative;width:2.75rem;height:2.75rem;border-radius:.8rem;border:1px solid var(--line2);background:transparent;color:var(--cream);display:grid;place-items:center;cursor:pointer;padding:0}
+.ic-btn:hover{background:var(--glass)}
+.ic-btn svg{width:1.3rem;height:1.3rem}
+#menu-b{grid-area:menu}#cart-b{grid-area:cart}
+.logo-b{grid-area:logo;justify-self:center;background:none;border:0;padding:.2rem;cursor:pointer;color:var(--cream)}
+.logo-b .logo{height:2.1rem}
+.badge{position:absolute;top:-.45rem;right:-.45rem;min-width:1.35rem;height:1.35rem;padding:0 .35rem;border-radius:99px;background:var(--red);color:var(--cream);font-size:.75rem;font-weight:700;display:grid;place-items:center;line-height:1}
+.sbox{grid-area:busca;display:flex;align-items:center;gap:.6rem;min-height:2.85rem;padding:0 .5rem 0 .9rem;border-radius:99px;background:rgba(255,242,227,.07);border:1.5px solid var(--line2)}
+.sbox:focus-within{border-color:var(--cream);box-shadow:0 0 0 3px rgba(255,242,227,.15)}
+.sbox svg{width:1.15rem;height:1.15rem;flex:none;color:var(--muted)}
+.sbox input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--cream);font-size:max(16px,.92rem);padding:.45rem 0}
+.sbox input::placeholder{color:#8FA59F}
+.sbox input::-webkit-search-cancel-button{display:none}
+.sbox .x{min-width:2.2rem;min-height:2.2rem;font-size:1.1rem}
+@media(min-width:56rem){
+  .top-in{grid-template-columns:auto auto 1fr auto;grid-template-areas:"menu logo busca cart";padding:.7rem 1rem;gap:1rem}
+  .logo-b{justify-self:start}
+  .logo-b .logo{height:2.4rem}
+}
+.wrap{max-width:72rem;margin:0 auto;padding:0 .85rem 8rem}
+.rowx{display:flex;gap:.7rem;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin:0 -.85rem;padding:0 .85rem;scroll-padding:0 .85rem}
+.rowx::-webkit-scrollbar{display:none}
+.rowx>*{flex:none;scroll-snap-align:start}
+.h2{font-size:clamp(1.65rem,4.6vw,2.1rem);line-height:1.1}
+.sobre{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#F6DDB0;margin-bottom:.15rem}
+.home-sec{margin-top:2rem}
+.home-sec>p.hint{margin:.3rem 0 .9rem;font-size:.95rem}
+.home-sec .h2{margin-bottom:.8rem}
+.home-sec .sobre+.h2{margin-bottom:.15rem}
+.mais{display:flex;width:100%;margin-top:.9rem}
+@media(min-width:56rem){.mais{width:auto;min-width:22rem;margin:1rem auto 0}}
+#toast{border-radius:1rem!important;bottom:calc(5.6rem + env(safe-area-inset-bottom,0px))!important;width:max-content;max-width:min(26rem,calc(100% - 2rem))!important;line-height:1.35}
+
+/* banners */
+.bns{margin-top:1rem}
+.bn{position:relative;width:min(86vw,22rem);aspect-ratio:4/5;border-radius:1.2rem;overflow:hidden;border:1px solid rgba(233,201,160,.45);background:var(--bg1);display:flex;flex-direction:column}
+.bn-tx{position:relative;z-index:2;padding:1.3rem 1.1rem .9rem;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.35rem;background:linear-gradient(180deg,var(--bg1) 70%,rgba(0,48,45,0))}
+.bn-tx .sobre{margin:0}
+.bn-tx h2{font-size:clamp(1.8rem,7.6vw,2.15rem);line-height:1.04}
+.bn-tx p{font-size:.88rem;color:#D7E3DF;max-width:20rem;line-height:1.35}
+.bn-ft{position:relative;flex:1;margin-top:-1.8rem;overflow:hidden}
+.bn-ft img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.bn-ft::before{content:"";position:absolute;inset:0 0 auto;height:3.4rem;z-index:1;background:linear-gradient(180deg,var(--bg1),rgba(0,48,45,0))}
+.bn-ft .logo{position:absolute;top:50%;left:50%;width:4.5rem;height:4.5rem;margin:-2.25rem 0 0 -2.25rem;color:var(--cream);opacity:.22}
+.bn .btn{position:absolute;z-index:3;left:50%;bottom:1rem;transform:translateX(-50%);white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+.bn .btn:hover{box-shadow:0 8px 24px rgba(0,0,0,.45),0 0 0 4px rgba(255,242,227,.18)}
+.bn-dots{display:flex;justify-content:center;gap:.35rem;margin-top:.7rem}
+.bn-dots i{width:.45rem;height:.45rem;border-radius:99px;background:rgba(255,242,227,.3);transition:width .2s,background .2s}
+.bn-dots i.on{width:1.3rem;background:#F6DDB0}
+@media(min-width:56rem){
+  .bns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible;margin:1.2rem 0 0;padding:0;gap:1rem}
+  .bn{width:auto}
+  .bn-dots{display:none}
+}
+
+/* vantagens */
+.vant{margin-top:1.1rem}
+.vant>div{display:flex;align-items:center;gap:.7rem;width:15rem;padding:.75rem .9rem;border-radius:1rem;border:1px solid var(--line);background:var(--glass)}
+.vant svg{width:1.8rem;height:1.8rem;flex:none;color:#F6DDB0}
+.vant b{display:block;font-size:.9rem;line-height:1.25}
+.vant span{display:block;font-size:.8rem;color:var(--muted);line-height:1.3}
+@media(min-width:56rem){.vant{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));overflow:visible;margin:1.2rem 0 0;padding:0}.vant>div{width:auto}}
+
+/* departamentos */
+.deps{gap:.9rem;padding-bottom:.3rem}
+.dep{width:5rem;display:flex;flex-direction:column;align-items:center;gap:.45rem;background:none;border:0;padding:0;color:var(--cream);cursor:pointer;font-size:.82rem;line-height:1.2;text-align:center}
+.dep i{width:4.6rem;height:4.6rem;border-radius:50%;background:var(--ic) center/78% no-repeat,#FFF2E3;box-shadow:0 0 0 3px rgba(233,201,160,.35);transition:box-shadow .15s}
+.dep:hover i{box-shadow:0 0 0 3px #F6DDB0}
+@media(min-width:56rem){.deps{flex-wrap:wrap;justify-content:flex-start;overflow:visible;margin:0;padding:0;gap:1.2rem 1rem}}
+
+/* grades */
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem}
+.g4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,9.5rem),1fr));gap:.7rem}
+@media(min-width:48rem){.g2{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}.grid{grid-template-columns:repeat(auto-fill,minmax(12rem,1fr));gap:.9rem}}
+
+/* cartão de produto */
+.p{position:relative;background:var(--bg1);border:1px solid var(--line);border-radius:1rem;display:flex;flex-direction:column;overflow:hidden}
 .p:hover{border-color:var(--line2)}
-.p .tag{align-self:flex-start;background:var(--red);color:#fff;font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;padding:.1rem .65rem;border-radius:99px}
-.p .tag.falta{background:transparent;color:var(--muted);border:1px solid var(--line2)}
 .p.off{opacity:.62}
-.p .d{color:var(--muted);font-size:.95rem;flex:1}
-/* moldura da foto 16:10: feita com altura por porcentagem da largura (funciona em todo celular; aspect-ratio + height:100% falha em alguns) */
-.ph{position:relative;margin:-1rem -1rem .3rem;flex:none;background:var(--bg1);overflow:hidden}
-.ph::before{content:"";display:block;padding-top:62.5%}
+.pb{padding:.65rem .7rem .75rem;display:flex;flex-direction:column;gap:.2rem;flex:1}
+.p h4{font:400 .95rem/1.3 var(--sans);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.6em}
+.p .d{color:var(--muted);font-size:.85rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.p .tag{position:absolute;z-index:3;top:.5rem;left:.5rem;background:var(--red);color:#fff;font-weight:700;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;padding:.15rem .55rem;border-radius:99px}
+.p .tag.falta{background:rgba(0,31,29,.85);color:var(--cream);border:1px solid var(--line2)}
+.p .btn{margin-top:auto;min-height:2.75rem;padding:.4rem .8rem;font-size:.92rem}
+.p .pb>.price{margin-top:.25rem}
+.p100{font-size:.78rem;color:var(--muted);min-height:1.2em}
+.price{display:flex;flex-wrap:wrap;align-items:baseline;gap:.1rem .45rem}
+.price b{font-size:1.2rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.price s{color:var(--muted);font-size:.85rem;font-variant-numeric:tabular-nums}
+.price span{color:var(--muted);font-size:.85rem}
+/* foto: quadrada no produto, 4:3 na tábua (altura por porcentagem da largura, funciona em todo celular) */
+.ph{position:relative;flex:none;background:var(--bg2);overflow:hidden}
+.ph::before{content:"";display:block;padding-top:100%}
+.p.tb .ph::before{padding-top:75%}
 .ph img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block}
+.ph-ic{background:var(--ic) center/62% no-repeat,radial-gradient(circle at 50% 45%,#FFFFFF,#FFF2E3 72%)}
+.ph-ic .logo.mono{position:absolute;top:auto;left:auto;right:.5rem;bottom:.5rem;width:1.2rem;height:1.2rem;margin:0;color:var(--bg2);opacity:.35}
 .ph .gs{position:absolute;inset:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .ph .gs::-webkit-scrollbar{display:none}
 .ph .gs img{position:relative;flex:0 0 100%;scroll-snap-align:center}
-.ph .ga{position:absolute;top:50%;margin-top:-1.4rem;width:2.8rem;height:2.8rem;border-radius:50%;border:0;background:rgba(0,31,29,.72);color:var(--cream);font-size:1.5rem;line-height:1;display:grid;place-items:center;cursor:pointer;padding:0;z-index:2}
-.ph .ga.l{left:.5rem}.ph .ga.r{right:.5rem}
-.ph .gd{position:absolute;left:0;right:0;bottom:.55rem;display:flex;justify-content:center;gap:.35rem;pointer-events:none;z-index:2}
-.ph .gd i{width:.55rem;height:.55rem;border-radius:50%;background:rgba(255,242,227,.5);box-shadow:0 0 2px #000}
+.ph .ga{position:absolute;top:50%;margin-top:-1.2rem;width:2.4rem;height:2.4rem;border-radius:50%;border:0;background:rgba(0,31,29,.72);color:var(--cream);font-size:1.3rem;line-height:1;display:grid;place-items:center;cursor:pointer;z-index:2}
+.ph .ga.l{left:.4rem}.ph .ga.r{right:.4rem}
+.ph .gd{position:absolute;left:0;right:0;bottom:.45rem;display:flex;justify-content:center;gap:.3rem;pointer-events:none;z-index:2}
+.ph .gd i{width:.45rem;height:.45rem;border-radius:50%;background:rgba(255,242,227,.5);box-shadow:0 0 2px #000}
 .ph .gd i.on{background:var(--cream)}
-.ph .gn{position:absolute;left:.55rem;top:.55rem;background:rgba(0,31,29,.78);color:var(--cream);font-size:.8rem;font-weight:700;padding:.15rem .5rem;border-radius:.6rem;z-index:2}
-.ph .logo{position:absolute;top:50%;left:50%;width:4.2rem;height:4.2rem;margin:-2.1rem 0 0 -2.1rem;color:var(--cream);opacity:.28}
-.price{display:flex;flex-wrap:wrap;align-items:baseline;gap:.15rem .6rem}
-.price b{font-size:1.4rem;font-variant-numeric:tabular-nums}
-.price s{color:var(--muted);font-variant-numeric:tabular-nums}
-.price span{color:var(--muted);font-size:.9rem}
-.empty{padding:2rem 0;color:var(--muted)}
-.bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(0,31,29,.86);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--line2);padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom,0px))}
-.bar-in{max-width:72rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:.7rem;flex-wrap:wrap}
-.bar-in div{font-weight:700}
-.bar-in div small{display:block;color:var(--muted);font-weight:400}
-.bar-in .btn{flex:1 1 13rem}
+.ph .gn{position:absolute;right:.45rem;top:.45rem;background:rgba(0,31,29,.78);color:var(--cream);font-size:.72rem;font-weight:700;padding:.1rem .45rem;border-radius:.6rem;z-index:2}
+.ph>.logo{position:absolute;top:50%;left:50%;width:3.6rem;height:3.6rem;margin:-1.8rem 0 0 -1.8rem;color:var(--cream);opacity:.28}
+.p.tb .pb{padding:.9rem .9rem 1rem;gap:.3rem}
+.p.tb .tag{position:static;align-self:flex-start;margin-bottom:.25rem}
+.p.tb .btn{margin-top:.6rem}
+.p.tb h4{font:400 1.35rem/1.1 var(--display);letter-spacing:.02em;min-height:0;-webkit-line-clamp:3}
+.p.tb .pess{font-size:.85rem;color:var(--muted)}
+
+/* lista (departamento ou busca) */
+.lista-h{padding-top:.6rem}
+.voltar{background:none;border:0;padding:.5rem 0;color:var(--muted);cursor:pointer;font-size:.95rem;min-height:2.75rem}
+.voltar:hover{color:var(--cream)}
+.lista-h h1{font-size:clamp(1.9rem,6vw,2.6rem);line-height:1.08}
+.lista-h p{color:var(--muted);font-size:.92rem;margin-top:.15rem}
+.chips{margin:.9rem -.85rem 1.1rem;gap:.45rem}
+.chip{min-height:2.6rem;padding:.3rem .95rem;border-radius:99px;border:1.5px solid var(--line2);background:transparent;cursor:pointer;font-weight:700;white-space:nowrap}
+.chip:hover{background:var(--glass)}
+.chip[aria-pressed="true"]{background:var(--cream);border-color:var(--cream);color:var(--bg2)}
+@media(min-width:56rem){.chips{flex-wrap:wrap;overflow:visible;margin:1rem 0 1.2rem;padding:0}}
+.sec-t{display:flex;align-items:baseline;gap:.8rem;margin:1.8rem 0 .8rem}
+.sec-t h3{font-size:1.6rem}
+.sec-t span{color:var(--muted)}
+.empty{padding:2rem 1rem;color:var(--muted);text-align:center;border:1px dashed var(--line2);border-radius:1rem}
+
+/* rodapé */
+.rod{margin-top:2.6rem;padding:1.6rem 0 .6rem;border-top:1px solid var(--line);display:grid;gap:.7rem;color:var(--muted);font-size:.92rem}
+.rod .logo{height:2rem;width:auto;color:var(--cream);justify-self:start}
+.rod a{color:var(--cream)}
+.rod button{justify-self:start;background:none;border:0;padding:.3rem 0;color:var(--muted);text-decoration:underline;cursor:pointer;min-height:2.75rem}
+
+/* barra do pedido e WhatsApp */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--cream);color:var(--bg2);box-shadow:0 -8px 28px rgba(0,0,0,.4);padding:.65rem .85rem calc(.65rem + env(safe-area-inset-bottom,0px))}
+.bar-in{max-width:72rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:.7rem}
+.bar-in div{font-weight:700;min-width:0}
+.bar-in div small{display:block;color:#3C5A55;font-weight:400;font-size:.82rem}
+.bar-in .btn{flex:none;background:var(--red);border-color:var(--red);color:var(--cream);min-height:2.9rem;padding:.4rem 1.2rem}
+.wa{position:fixed;right:.9rem;bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:35;width:3rem;height:3rem;border-radius:50%;background:#25D366;display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.45);transition:bottom .2s}
+.wa svg{width:1.6rem;height:1.6rem}
+body.com-pedido .wa{bottom:calc(5.2rem + env(safe-area-inset-bottom,0px))}
+
+/* menu lateral */
+#dlg-menu{margin:0;inset:0 auto 0 0;width:min(88vw,23rem);max-width:none;height:100%;max-height:100%;border-radius:0 1.3rem 1.3rem 0;border-left:0}
+#dlg-menu .dlg{display:flex;flex-direction:column;gap:1rem;padding-top:calc(1rem + env(safe-area-inset-top,0px))}
+#dlg-menu .dlg-h{align-items:center;margin:0}
+#dlg-menu .dlg-h .logo{height:1.9rem;width:auto;aspect-ratio:639/175;color:var(--cream)}
+#ola{font-size:1.9rem}
+.m-ctas{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.m-ctas .btn{padding:.5rem .6rem;font-size:.92rem}
+.m-deps{display:flex;flex-direction:column}
+.m-deps button{display:flex;align-items:center;gap:.75rem;min-height:3.1rem;padding:.35rem 0;background:none;border:0;border-bottom:1px solid var(--line);color:var(--cream);text-align:left;cursor:pointer;font-size:1rem}
+.m-deps button i{width:2.3rem;height:2.3rem;flex:none;border-radius:50%;background:var(--ic) center/80% no-repeat,#FFF2E3}
+.m-deps button span{flex:1}
+.m-deps button::after{content:"›";color:var(--muted);font-size:1.3rem}
+.m-fs{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+.m-fs .btn{min-height:2.75rem;padding:.2rem .9rem;background:transparent;color:var(--cream);border-color:var(--line2)}
+.m-sair{align-self:flex-start;background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;min-height:2.75rem;padding:0}
+/* desenhos dos departamentos */
+.ic-queijos{--ic:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+PGVsbGlwc2UgY3g9IjYwIiBjeT0iMTAwIiByeD0iNDQiIHJ5PSI3IiBmaWxsPSIjM2EyYTE4IiBvcGFjaXR5PSIwLjE4Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTQsMjIpIj48ZyB0cmFuc2Zvcm09InNjYWxlKDEpIj48cG9seWdvbiBwb2ludHM9IjAsMzAgNzAsMCA5MiwyNiAyMiw1OCIgZmlsbD0iI0Y2Q0Y1RSIvPjxwb2x5Z29uIHBvaW50cz0iMjIsNTggOTIsMjYgOTIsNTIgMjIsODYiIGZpbGw9IiNFM0E4M0EiLz48cG9seWdvbiBwb2ludHM9IjAsMzAgMjIsNTggMjIsODYgMCw1OCIgZmlsbD0iI0Q1OUEyQyIvPjxwb2x5bGluZSBwb2ludHM9IjAsMzAgNzAsMCA5MiwyNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkZFN0EwIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48ZWxsaXBzZSBjeD0iNDQiIGN5PSI2MiIgcng9IjUiIHJ5PSI2IiBmaWxsPSIjQzk4QTIyIi8+PGVsbGlwc2UgY3g9IjcwIiBjeT0iNTAiIHJ4PSI0IiByeT0iNSIgZmlsbD0iI0M5OEEyMiIvPjxlbGxpcHNlIGN4PSI3OCIgY3k9IjY4IiByeD0iMyIgcnk9IjMuNSIgZmlsbD0iI0M5OEEyMiIvPjxlbGxpcHNlIGN4PSIzNiIgY3k9IjMyIiByeD0iNSIgcnk9IjIuNSIgZmlsbD0iI0U4Qjg0QSIvPjxlbGxpcHNlIGN4PSI1OCIgY3k9IjIyIiByeD0iNCIgcnk9IjIiIGZpbGw9IiNFOEI4NEEiLz48L2c+PC9nPjwvc3ZnPg==")}
+.ic-frios{--ic:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+PGVsbGlwc2UgY3g9IjYwIiBjeT0iMTAwIiByeD0iNDYiIHJ5PSI3IiBmaWxsPSIjM2EyYTE4IiBvcGFjaXR5PSIwLjE4Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTgsNDApIHJvdGF0ZSgtMTQpIj48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iNzQiIGhlaWdodD0iMzQiIHJ4PSIxNyIgZmlsbD0iIzdFMUYyQSIvPjxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSI2NiIgaGVpZ2h0PSIxMCIgcng9IjUiIGZpbGw9IiNBNjMzNDAiIG9wYWNpdHk9Ii43Ii8+PGNpcmNsZSBjeD0iMTQiIGN5PSIyMiIgcj0iMiIgZmlsbD0iI0YxQ0ZDNSIvPjxjaXJjbGUgY3g9IjI2IiBjeT0iMTIiIHI9IjIiIGZpbGw9IiNGMUNGQzUiLz48Y2lyY2xlIGN4PSIzNiIgY3k9IjI2IiByPSIyIiBmaWxsPSIjRjFDRkM1Ii8+PGNpcmNsZSBjeD0iNDgiIGN5PSIxNiIgcj0iMiIgZmlsbD0iI0YxQ0ZDNSIvPjxjaXJjbGUgY3g9IjU4IiBjeT0iMjQiIHI9IjIiIGZpbGw9IiNGMUNGQzUiLz48Y2lyY2xlIGN4PSIyMCIgY3k9IjgiIHI9IjIiIGZpbGw9IiNGMUNGQzUiLz48cGF0aCBkPSJNNCAxNyBDLTQgMTIgLTYgMjIgMiAyMiIgc3Ryb2tlPSIjRTZEM0IwIiBzdHJva2Utd2lkdGg9IjMiIGZpbGw9Im5vbmUiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODQsODIpIj48Y2lyY2xlIHI9IjE2IiBmaWxsPSIjOEUyNDMwIi8+PGNpcmNsZSByPSIxNCIgZmlsbD0iI0IyM0E0NCIvPjxjaXJjbGUgY3g9IjcuNiIgY3k9IjIuNCIgcj0iMS45IiBmaWxsPSIjRjZEOUNGIi8+PGNpcmNsZSBjeD0iMS43IiBjeT0iOS44IiByPSIxLjkiIGZpbGw9IiNGNkQ5Q0YiLz48Y2lyY2xlIGN4PSItNC41IiBjeT0iMy40IiByPSIxLjkiIGZpbGw9IiNGNkQ5Q0YiLz48Y2lyY2xlIGN4PSItOC42IiBjeT0iLTQuMiIgcj0iMS45IiBmaWxsPSIjRjZEOUNGIi8+PGNpcmNsZSBjeD0iLTAuOCIgY3k9Ii03LjIiIHI9IjEuOSIgZmlsbD0iI0Y2RDlDRiIvPjxjaXJjbGUgY3g9IjguMiIgY3k9Ii02LjciIHI9IjEuOSIgZmlsbD0iI0Y2RDlDRiIvPjxjaXJjbGUgY3g9IjEuNSIgY3k9IjEuOSIgcj0iMS45IiBmaWxsPSIjRjZEOUNGIi8+PC9nPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU4LDkwKSI+PGNpcmNsZSByPSIxMiIgZmlsbD0iIzhFMjQzMCIvPjxjaXJjbGUgcj0iMTAiIGZpbGw9IiNCMjNBNDQiLz48Y2lyY2xlIGN4PSI1LjciIGN5PSIxLjgiIHI9IjEuNCIgZmlsbD0iI0Y2RDlDRiIvPjxjaXJjbGUgY3g9IjEuMyIgY3k9IjcuMyIgcj0iMS40IiBmaWxsPSIjRjZEOUNGIi8+PGNpcmNsZSBjeD0iLTMuNCIgY3k9IjIuNSIgcj0iMS40IiBmaWxsPSIjRjZEOUNGIi8+PGNpcmNsZSBjeD0iLTYuNSIgY3k9Ii0zLjIiIHI9IjEuNCIgZmlsbD0iI0Y2RDlDRiIvPjxjaXJjbGUgY3g9Ii0wLjYiIGN5PSItNS40IiByPSIxLjQiIGZpbGw9IiNGNkQ5Q0YiLz48Y2lyY2xlIGN4PSI2LjEiIGN5PSItNS4wIiByPSIxLjQiIGZpbGw9IiNGNkQ5Q0YiLz48Y2lyY2xlIGN4PSIxLjEiIGN5PSIxLjQiIHI9IjEuNCIgZmlsbD0iI0Y2RDlDRiIvPjwvZz48L3N2Zz4=")}
+.ic-mel{--ic:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+PGVsbGlwc2UgY3g9IjYwIiBjeT0iMTA0IiByeD0iNDAiIHJ5PSI2IiBmaWxsPSIjM2EyYTE4IiBvcGFjaXR5PSIwLjE4Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTYsMTAyKSI+PGcgdHJhbnNmb3JtPSJzY2FsZSgxKSI+PHJlY3QgeD0iLTMwIiB5PSItNzgiIHdpZHRoPSI2MCIgaGVpZ2h0PSIxNCIgcng9IjQiIGZpbGw9IiM3QTRCMkEiLz48cmVjdCB4PSItMzQiIHk9Ii02NiIgd2lkdGg9IjY4IiBoZWlnaHQ9IjY2IiByeD0iMTIiIGZpbGw9IiNGNEUzQzQiLz48cmVjdCB4PSItMzAiIHk9Ii02MCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjU2IiByeD0iOSIgZmlsbD0iI0Q5OTMyQiIvPjxwYXRoIGQ9Ik0tMjIgLTU0IEwtMjIgLTEyIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNSIgb3BhY2l0eT0iLjM1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cmVjdCB4PSItMjQiIHk9Ii00NCIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjI0IiByeD0iMyIgZmlsbD0iI0ZGRjJFMyIvPjxyZWN0IHg9Ii0xNCIgeT0iLTM2IiB3aWR0aD0iMjgiIGhlaWdodD0iMyIgcng9IjEuNSIgZmlsbD0iIzAwNDU0MSIgb3BhY2l0eT0iLjciLz48cmVjdCB4PSItMTAiIHk9Ii0yOSIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIuNSIgcng9IjEuMiIgZmlsbD0iI0M2MjQzQiIgb3BhY2l0eT0iLjgiLz48L2c+PC9nPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDc4LDEwKSByb3RhdGUoMjgpIj48cmVjdCB4PSItMyIgeT0iMCIgd2lkdGg9IjYiIGhlaWdodD0iNTYiIHJ4PSIzIiBmaWxsPSIjQTg3NDNGIi8+PHJlY3QgeD0iLTkiIHk9IjU4IiB3aWR0aD0iMTgiIGhlaWdodD0iNSIgcng9IjIuNSIgZmlsbD0iI0I5ODI0QSIvPjxyZWN0IHg9Ii05IiB5PSI2NSIgd2lkdGg9IjE4IiBoZWlnaHQ9IjUiIHJ4PSIyLjUiIGZpbGw9IiNCOTgyNEEiLz48cmVjdCB4PSItOSIgeT0iNzIiIHdpZHRoPSIxOCIgaGVpZ2h0PSI1IiByeD0iMi41IiBmaWxsPSIjQjk4MjRBIi8+PHJlY3QgeD0iLTkiIHk9Ijc5IiB3aWR0aD0iMTgiIGhlaWdodD0iNSIgcng9IjIuNSIgZmlsbD0iI0I5ODI0QSIvPjwvZz48L3N2Zz4=")}
+.ic-biscoitos{--ic:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+PGVsbGlwc2UgY3g9IjYwIiBjeT0iMTAyIiByeD0iNDQiIHJ5PSI3IiBmaWxsPSIjM2EyYTE4IiBvcGFjaXR5PSIwLjE4Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjAsOTIpIj48ZWxsaXBzZSByeD0iNDAiIHJ5PSIxMiIgZmlsbD0iI0E4NkEzMyIvPjxlbGxpcHNlIGN5PSItNCIgcng9IjQwIiByeT0iMTIiIGZpbGw9IiNENkEwNjEiLz48Y2lyY2xlIGN4PSItMjAiIGN5PSItNiIgcj0iMi40IiBmaWxsPSIjNUIzNDE4Ii8+PGNpcmNsZSBjeD0iLTYiIGN5PSIwIiByPSIyLjQiIGZpbGw9IiM1QjM0MTgiLz48Y2lyY2xlIGN4PSIxMCIgY3k9Ii04IiByPSIyLjQiIGZpbGw9IiM1QjM0MTgiLz48Y2lyY2xlIGN4PSIyMiIgY3k9Ii0xIiByPSIyLjQiIGZpbGw9IiM1QjM0MTgiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTExIiByPSIyLjQiIGZpbGw9IiM1QjM0MTgiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjAsNzgpIj48ZWxsaXBzZSByeD0iNDAiIHJ5PSIxMiIgZmlsbD0iI0E4NkEzMyIvPjxlbGxpcHNlIGN5PSItNCIgcng9IjQwIiByeT0iMTIiIGZpbGw9IiNENkEwNjEiLz48Y2lyY2xlIGN4PSItMjAiIGN5PSItNiIgcj0iMi40IiBmaWxsPSIjNUIzNDE4Ii8+PGNpcmNsZSBjeD0iLTYiIGN5PSIwIiByPSIyLjQiIGZpbGw9IiM1QjM0MTgiLz48Y2lyY2xlIGN4PSIxMCIgY3k9Ii04IiByPSIyLjQiIGZpbGw9IiM1QjM0MTgiLz48Y2lyY2xlIGN4PSIyMiIgY3k9Ii0xIiByPSIyLjQiIGZpbGw9IiM1QjM0MTgiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTExIiByPSIyLjQiIGZpbGw9IiM1QjM0MTgiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjAsNjQpIj48ZWxsaXBzZSByeD0iNDAiIHJ5PSIxMiIgZmlsbD0iI0E4NkEzMyIvPjxlbGxpcHNlIGN5PSItNCIgcng9IjQwIiByeT0iMTIiIGZpbGw9IiNENkEwNjEiLz48Y2lyY2xlIGN4PSItMjAiIGN5PSItNiIgcj0iMi40IiBmaWxsPSIjNUIzNDE4Ii8+PGNpcmNsZSBjeD0iLTYiIGN5PSIwIiByPSIyLjQiIGZpbGw9IiM1QjM0MTgiLz48Y2lyY2xlIGN4PSIxMCIgY3k9Ii04IiByPSIyLjQiIGZpbGw9IiM1QjM0MTgiLz48Y2lyY2xlIGN4PSIyMiIgY3k9Ii0xIiByPSIyLjQiIGZpbGw9IiM1QjM0MTgiLz48Y2lyY2xlIGN4PSIwIiBjeT0iLTExIiByPSIyLjQiIGZpbGw9IiM1QjM0MTgiLz48L2c+PC9zdmc+")}
+.ic-laticinios{--ic:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+PGVsbGlwc2UgY3g9IjYwIiBjeT0iMTAyIiByeD0iNDYiIHJ5PSI3IiBmaWxsPSIjM2EyYTE4IiBvcGFjaXR5PSIwLjE4Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTYsNjIpIj48cG9seWdvbiBwb2ludHM9IjAsMTQgNTIsMCA3NiwxMiAyNCwyOCIgZmlsbD0iI0ZGRTlBOCIvPjxwb2x5Z29uIHBvaW50cz0iMjQsMjggNzYsMTIgNzYsMzQgMjQsNTAiIGZpbGw9IiNGMkNGNkIiLz48cG9seWdvbiBwb2ludHM9IjAsMTQgMjQsMjggMjQsNTAgMCwzNiIgZmlsbD0iI0U3QkU1MiIvPjxwYXRoIGQ9Ik0tNiAzMCBMMjQgNDggTDgyIDMwIiBzdHJva2U9IiNGRkY3RUEiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjkiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODYsOTgpIj48cGF0aCBkPSJNLTggLTg0IEw4IC04NCBMOCAtNzAgQzE4IC02MiAyMCAtNTYgMjAgLTQ2IEwyMCAtNiBRMjAgMCAxNCAwIEwtMTQgMCBRLTIwIDAgLTIwIC02IEwtMjAgLTQ2IEMtMjAgLTU2IC0xOCAtNjIgLTggLTcwWiIgZmlsbD0iI0ZGRkZGRiIvPjxyZWN0IHg9Ii05IiB5PSItOTIiIHdpZHRoPSIxOCIgaGVpZ2h0PSIxMCIgcng9IjMiIGZpbGw9IiMyRTZGQjAiLz48cmVjdCB4PSItMjAiIHk9Ii00MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjE4IiBmaWxsPSIjMkU2RkIwIiBvcGFjaXR5PSIuODUiLz48L2c+PC9zdmc+")}
+.ic-petiscos{--ic:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+PGVsbGlwc2UgY3g9IjYwIiBjeT0iMTA0IiByeD0iNDYiIHJ5PSI3IiBmaWxsPSIjM2EyYTE4IiBvcGFjaXR5PSIwLjE4Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjAsNzApIj48ZWxsaXBzZSBjeD0iLTIyIiBjeT0iLTgiIHJ4PSI5IiByeT0iNiIgdHJhbnNmb3JtPSJyb3RhdGUoMjAgLTIyIC04KSIgZmlsbD0iI0M4OEE0NCIvPjxlbGxpcHNlIGN4PSItOCIgY3k9Ii0xNCIgcng9IjkiIHJ5PSI2IiB0cmFuc2Zvcm09InJvdGF0ZSgtMzAgLTggLTE0KSIgZmlsbD0iI0I0NzQzMiIvPjxlbGxpcHNlIGN4PSI4IiBjeT0iLTEyIiByeD0iOSIgcnk9IjYiIHRyYW5zZm9ybT0icm90YXRlKDQwIDggLTEyKSIgZmlsbD0iI0QxOUE1NSIvPjxlbGxpcHNlIGN4PSIyMiIgY3k9Ii04IiByeD0iOSIgcnk9IjYiIHRyYW5zZm9ybT0icm90YXRlKC0xMCAyMiAtOCkiIGZpbGw9IiNDODhBNDQiLz48ZWxsaXBzZSBjeD0iLTE0IiBjeT0iLTIiIHJ4PSI5IiByeT0iNiIgdHJhbnNmb3JtPSJyb3RhdGUoNjAgLTE0IC0yKSIgZmlsbD0iIzlDNkEyRSIvPjxlbGxpcHNlIGN4PSIyIiBjeT0iLTQiIHJ4PSI5IiByeT0iNiIgdHJhbnNmb3JtPSJyb3RhdGUoMTAgMiAtNCkiIGZpbGw9IiNEOUE4NjIiLz48ZWxsaXBzZSBjeD0iMTYiIGN5PSItMiIgcng9IjkiIHJ5PSI2IiB0cmFuc2Zvcm09InJvdGF0ZSgtNTAgMTYgLTIpIiBmaWxsPSIjQjQ3NDMyIi8+PHBhdGggZD0iTS00NCAtNCBMNDQgLTQgQzQwIDI2IDIyIDM0IDAgMzQgQy0yMiAzNCAtNDAgMjYgLTQ0IC00WiIgZmlsbD0iIzAwNDU0MSIvPjxwYXRoIGQ9Ik0tNDQgLTQgTDQ0IC00IiBzdHJva2U9IiMwQTVBNTQiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTS0zMCAxMCBDLTIwIDIyIDIwIDIyIDMwIDEwIiBzdHJva2U9IiNGRkYyRTMiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjMiLz48L2c+PC9zdmc+")}
+.ic-cachacas{--ic:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+PGVsbGlwc2UgY3g9IjYwIiBjeT0iMTEyIiByeD0iMzAiIHJ5PSI1IiBmaWxsPSIjM2EyYTE4IiBvcGFjaXR5PSIwLjE4Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjAsMTEwKSI+PGcgdHJhbnNmb3JtPSJzY2FsZSgwLjgyKSI+PHJlY3QgeD0iLTciIHk9Ii0xNDAuMCIgd2lkdGg9IjE0IiBoZWlnaHQ9IjE0IiByeD0iMyIgZmlsbD0iIzdBNEIyQSIvPjxwYXRoIGQ9Ik0tOCAtMTI2LjAgTDggLTEyNi4wIEw4IC05Ni4wIEMyNCAtODQuMCAyNiAtNzQuMCAyNiAtNjIuMCBMMjYgLTggUTI2IDAgMTggMCBMLTE4IDAgUS0yNiAwIC0yNiAtOCBMLTI2IC02Mi4wIEMtMjYgLTc0LjAgLTI0IC04NC4wIC04IC05Ni4wWiIgZmlsbD0iI0YxRDlBNiIvPjxwYXRoIGQ9Ik0tMjIgLTU0LjAgTDIyIC01NC4wIEwyMiAtOCBRMjIgLTQgMTYgLTQgTC0xNiAtNCBRLTIyIC00IC0yMiAtOFoiIGZpbGw9IiNEMTlBM0EiLz48cmVjdCB4PSItMjIiIHk9Ii02MyIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjM0IiByeD0iMyIgZmlsbD0iI0ZGRjJFMyIvPjxyZWN0IHg9Ii0xNCIgeT0iLTUzIiB3aWR0aD0iMjgiIGhlaWdodD0iMyIgcng9IjEuNSIgZmlsbD0iIzAwNDU0MSIgb3BhY2l0eT0iLjciLz48cmVjdCB4PSItMTAiIHk9Ii00NSIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIuNSIgcng9IjEuMiIgZmlsbD0iI0M2MjQzQiIgb3BhY2l0eT0iLjgiLz48cGF0aCBkPSJNLTE4IC01OC4wIEwtMTggLTEwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNCIgb3BhY2l0eT0iLjM1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L2c+PC9nPjwvc3ZnPg==")}
+.ic-licores{--ic:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+PGVsbGlwc2UgY3g9IjYwIiBjeT0iMTEwIiByeD0iNDQiIHJ5PSI2IiBmaWxsPSIjM2EyYTE4IiBvcGFjaXR5PSIwLjE4Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDgsMTA4KSI+PGcgdHJhbnNmb3JtPSJzY2FsZSgwLjcyKSI+PHJlY3QgeD0iLTciIHk9Ii0xMjIuMCIgd2lkdGg9IjE0IiBoZWlnaHQ9IjE0IiByeD0iMyIgZmlsbD0iIzdBNEIyQSIvPjxwYXRoIGQ9Ik0tOCAtMTA4LjAgTDggLTEwOC4wIEw4IC03OC4wIEMyNCAtNjYuMCAyNiAtNTYuMCAyNiAtNDQuMCBMMjYgLTggUTI2IDAgMTggMCBMLTE4IDAgUS0yNiAwIC0yNiAtOCBMLTI2IC00NC4wIEMtMjYgLTU2LjAgLTI0IC02Ni4wIC04IC03OC4wWiIgZmlsbD0iI0U5QjdCRiIvPjxwYXRoIGQ9Ik0tMjIgLTM2LjAgTDIyIC0zNi4wIEwyMiAtOCBRMjIgLTQgMTYgLTQgTC0xNiAtNCBRLTIyIC00IC0yMiAtOFoiIGZpbGw9IiNBMzIwM0EiLz48cmVjdCB4PSItMjIiIHk9Ii01MyIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjI5IiByeD0iMyIgZmlsbD0iI0ZGRjJFMyIvPjxyZWN0IHg9Ii0xNCIgeT0iLTQzIiB3aWR0aD0iMjgiIGhlaWdodD0iMyIgcng9IjEuNSIgZmlsbD0iIzAwNDU0MSIgb3BhY2l0eT0iLjciLz48cmVjdCB4PSItMTAiIHk9Ii0zNSIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIuNSIgcng9IjEuMiIgZmlsbD0iI0M2MjQzQiIgb3BhY2l0eT0iLjgiLz48cGF0aCBkPSJNLTE4IC00MC4wIEwtMTggLTEwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNCIgb3BhY2l0eT0iLjM1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L2c+PC9nPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDg4LDEwOCkiPjxwYXRoIGQ9Ik0tMTIgLTQwIEwxMiAtNDAgTDggLTE0IFEwIC04IC04IC0xNFoiIGZpbGw9IiNGN0U2RUEiLz48cGF0aCBkPSJNLTEwIC0zMiBMMTAgLTMyIEw3IC0xNiBRMCAtMTEgLTcgLTE2WiIgZmlsbD0iI0EzMjAzQSIvPjxyZWN0IHg9Ii0xLjUiIHk9Ii0xMiIgd2lkdGg9IjMiIGhlaWdodD0iMTAiIGZpbGw9IiNGN0U2RUEiLz48cmVjdCB4PSItOSIgeT0iLTMiIHdpZHRoPSIxOCIgaGVpZ2h0PSIzIiByeD0iMS41IiBmaWxsPSIjRjdFNkVBIi8+PC9nPjwvc3ZnPg==")}
+.ic-conservas{--ic:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+PGVsbGlwc2UgY3g9IjYwIiBjeT0iMTA2IiByeD0iNDYiIHJ5PSI2IiBmaWxsPSIjM2EyYTE4IiBvcGFjaXR5PSIwLjE4Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDIsMTA0KSI+PHJlY3QgeD0iLTI2IiB5PSItNzAiIHdpZHRoPSI1MiIgaGVpZ2h0PSIxMiIgcng9IjQiIGZpbGw9IiNEN0IyNEEiLz48cmVjdCB4PSItMjgiIHk9Ii02MCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjYwIiByeD0iMTAiIGZpbGw9IiNFQUYxREYiLz48ZWxsaXBzZSBjeD0iLTEyIiBjeT0iLTQ0IiByeD0iOCIgcnk9IjYiIGZpbGw9IiM2RThCMkUiLz48Y2lyY2xlIGN4PSItOSIgY3k9Ii00NCIgcj0iMiIgZmlsbD0iI0M2MjQzQiIvPjxlbGxpcHNlIGN4PSI4IiBjeT0iLTQ2IiByeD0iOCIgcnk9IjYiIGZpbGw9IiM2RThCMkUiLz48Y2lyY2xlIGN4PSIxMSIgY3k9Ii00NiIgcj0iMiIgZmlsbD0iI0M2MjQzQiIvPjxlbGxpcHNlIGN4PSItNCIgY3k9Ii0zMCIgcng9IjgiIHJ5PSI2IiBmaWxsPSIjNkU4QjJFIi8+PGNpcmNsZSBjeD0iLTEiIGN5PSItMzAiIHI9IjIiIGZpbGw9IiNDNjI0M0IiLz48ZWxsaXBzZSBjeD0iMTQiIGN5PSItMjgiIHJ4PSI4IiByeT0iNiIgZmlsbD0iIzZFOEIyRSIvPjxjaXJjbGUgY3g9IjE3IiBjeT0iLTI4IiByPSIyIiBmaWxsPSIjQzYyNDNCIi8+PGVsbGlwc2UgY3g9Ii0xNCIgY3k9Ii0xNCIgcng9IjgiIHJ5PSI2IiBmaWxsPSIjNkU4QjJFIi8+PGNpcmNsZSBjeD0iLTExIiBjeT0iLTE0IiByPSIyIiBmaWxsPSIjQzYyNDNCIi8+PGVsbGlwc2UgY3g9IjYiIGN5PSItMTIiIHJ4PSI4IiByeT0iNiIgZmlsbD0iIzZFOEIyRSIvPjxjaXJjbGUgY3g9IjkiIGN5PSItMTIiIHI9IjIiIGZpbGw9IiNDNjI0M0IiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODYsMTA2KSI+PGcgdHJhbnNmb3JtPSJzY2FsZSgwLjYyKSI+PHJlY3QgeD0iLTciIHk9Ii0xNDYuMCIgd2lkdGg9IjE0IiBoZWlnaHQ9IjE0IiByeD0iMyIgZmlsbD0iIzdBNEIyQSIvPjxwYXRoIGQ9Ik0tOCAtMTMyLjAgTDggLTEzMi4wIEw4IC0xMDIuMCBDMjQgLTkwLjAgMjYgLTgwLjAgMjYgLTY4LjAgTDI2IC04IFEyNiAwIDE4IDAgTC0xOCAwIFEtMjYgMCAtMjYgLTggTC0yNiAtNjguMCBDLTI2IC04MC4wIC0yNCAtOTAuMCAtOCAtMTAyLjBaIiBmaWxsPSIjRTRFM0I4Ii8+PHBhdGggZD0iTS0yMiAtNjAuMCBMMjIgLTYwLjAgTDIyIC04IFEyMiAtNCAxNiAtNCBMLTE2IC00IFEtMjIgLTQgLTIyIC04WiIgZmlsbD0iI0I3QTEzQSIvPjxyZWN0IHg9Ii0yMiIgeT0iLTY2IiB3aWR0aD0iNDQiIGhlaWdodD0iMzYiIHJ4PSIzIiBmaWxsPSIjRkZGMkUzIi8+PHJlY3QgeD0iLTE0IiB5PSItNTYiIHdpZHRoPSIyOCIgaGVpZ2h0PSIzIiByeD0iMS41IiBmaWxsPSIjMDA0NTQxIiBvcGFjaXR5PSIuNyIvPjxyZWN0IHg9Ii0xMCIgeT0iLTQ4IiB3aWR0aD0iMjAiIGhlaWdodD0iMi41IiByeD0iMS4yIiBmaWxsPSIjQzYyNDNCIiBvcGFjaXR5PSIuOCIvPjxwYXRoIGQ9Ik0tMTggLTY0LjAgTC0xOCAtMTAiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI0IiBvcGFjaXR5PSIuMzUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvZz48L2c+PC9zdmc+")}
+.ic-massas{--ic:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+PGVsbGlwc2UgY3g9IjYwIiBjeT0iMTAwIiByeD0iNDQiIHJ5PSI3IiBmaWxsPSIjM2EyYTE4IiBvcGFjaXR5PSIwLjE4Ii8+PGVsbGlwc2UgY3g9IjYwIiBjeT0iNzYiIHJ4PSIzNiIgcnk9IjIwIiBmaWxsPSJub25lIiBzdHJva2U9IiNFN0I4NTAiIHN0cm9rZS13aWR0aD0iNSIvPjxlbGxpcHNlIGN4PSI2MCIgY3k9IjcyIiByeD0iMzAiIHJ5PSIxNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRjJDQjY4IiBzdHJva2Utd2lkdGg9IjUiLz48ZWxsaXBzZSBjeD0iNjAiIGN5PSI2OCIgcng9IjI0IiByeT0iMTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0U3Qjg1MCIgc3Ryb2tlLXdpZHRoPSI1Ii8+PGVsbGlwc2UgY3g9IjYwIiBjeT0iNjQiIHJ4PSIxNiIgcnk9IjgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0Y3RDk4MiIgc3Ryb2tlLXdpZHRoPSI1Ii8+PGVsbGlwc2UgY3g9IjU2IiBjeT0iNzQiIHJ4PSIzNCIgcnk9IjE0IiBmaWxsPSJub25lIiBzdHJva2U9IiNGMkNCNjgiIHN0cm9rZS13aWR0aD0iNSIvPjxlbGxpcHNlIGN4PSI2NCIgY3k9IjY5IiByeD0iMjYiIHJ5PSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRTlCRTU4IiBzdHJva2Utd2lkdGg9IjUiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg5MiwzNCkiPjxnIHRyYW5zZm9ybT0icm90YXRlKDMwKSBzY2FsZSgwLjM4KSI+PHBhdGggZD0iTTAgMCBMMCAtNjAiIHN0cm9rZT0iIzRBNUEzNCIgc3Ryb2tlLXdpZHRoPSIyLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0wIC04IGwtMTIgLTYiIHN0cm9rZT0iIzNFOEE0RSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMCAtOCBsMTIgLTYiIHN0cm9rZT0iIzNFOEE0RSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMCAtMTYgbC0xMiAtNiIgc3Ryb2tlPSIjM0U4QTRFIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0wIC0xNiBsMTIgLTYiIHN0cm9rZT0iIzNFOEE0RSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMCAtMjQgbC0xMiAtNiIgc3Ryb2tlPSIjM0U4QTRFIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0wIC0yNCBsMTIgLTYiIHN0cm9rZT0iIzNFOEE0RSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMCAtMzIgbC0xMiAtNiIgc3Ryb2tlPSIjM0U4QTRFIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0wIC0zMiBsMTIgLTYiIHN0cm9rZT0iIzNFOEE0RSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMCAtNDAgbC0xMiAtNiIgc3Ryb2tlPSIjM0U4QTRFIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0wIC00MCBsMTIgLTYiIHN0cm9rZT0iIzNFOEE0RSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMCAtNDggbC0xMiAtNiIgc3Ryb2tlPSIjM0U4QTRFIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0wIC00OCBsMTIgLTYiIHN0cm9rZT0iIzNFOEE0RSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMCAtNTYgbC0xMiAtNiIgc3Ryb2tlPSIjM0U4QTRFIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0wIC01NiBsMTIgLTYiIHN0cm9rZT0iIzNFOEE0RSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L2c+PC9nPjwvc3ZnPg==")}
+.ic-bebidas{--ic:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+PGVsbGlwc2UgY3g9IjYwIiBjeT0iMTEwIiByeD0iNDQiIHJ5PSI2IiBmaWxsPSIjM2EyYTE4IiBvcGFjaXR5PSIwLjE4Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDYsMTEwKSI+PGcgdHJhbnNmb3JtPSJzY2FsZSgwLjgpIj48cmVjdCB4PSItNyIgeT0iLTE0Ni4wIiB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHJ4PSIzIiBmaWxsPSIjN0E0QjJBIi8+PHBhdGggZD0iTS04IC0xMzIuMCBMOCAtMTMyLjAgTDggLTEwMi4wIEMyNCAtOTAuMCAyNiAtODAuMCAyNiAtNjguMCBMMjYgLTggUTI2IDAgMTggMCBMLTE4IDAgUS0yNiAwIC0yNiAtOCBMLTI2IC02OC4wIEMtMjYgLTgwLjAgLTI0IC05MC4wIC04IC0xMDIuMFoiIGZpbGw9IiMyRjVCM0EiLz48cGF0aCBkPSJNLTIyIC02MC4wIEwyMiAtNjAuMCBMMjIgLTggUTIyIC00IDE2IC00IEwtMTYgLTQgUS0yMiAtNCAtMjIgLThaIiBmaWxsPSIjNUExQTJBIi8+PHJlY3QgeD0iLTIyIiB5PSItNjYiIHdpZHRoPSI0NCIgaGVpZ2h0PSIzNiIgcng9IjMiIGZpbGw9IiNGRkYyRTMiLz48cmVjdCB4PSItMTQiIHk9Ii01NiIgd2lkdGg9IjI4IiBoZWlnaHQ9IjMiIHJ4PSIxLjUiIGZpbGw9IiMwMDQ1NDEiIG9wYWNpdHk9Ii43Ii8+PHJlY3QgeD0iLTEwIiB5PSItNDgiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyLjUiIHJ4PSIxLjIiIGZpbGw9IiNDNjI0M0IiIG9wYWNpdHk9Ii44Ii8+PHBhdGggZD0iTS0xOCAtNjQuMCBMLTE4IC0xMCIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjQiIG9wYWNpdHk9Ii4zNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9nPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg4OCwxMTApIj48cGF0aCBkPSJNLTE0IC02MiBMMTQgLTYyIEMxNiAtNDIgMTAgLTMwIDAgLTMwIEMtMTAgLTMwIC0xNiAtNDIgLTE0IC02MloiIGZpbGw9IiNGNEVFRjAiLz48cGF0aCBkPSJNLTEzIC01MCBMMTMgLTUwIEMxMyAtMzggOCAtMzIgMCAtMzIgQy04IC0zMiAtMTMgLTM4IC0xMyAtNTBaIiBmaWxsPSIjN0UxRjM1Ii8+PHJlY3QgeD0iLTEuNSIgeT0iLTMwIiB3aWR0aD0iMyIgaGVpZ2h0PSIyNiIgZmlsbD0iI0Y0RUVGMCIvPjxlbGxpcHNlIGN5PSItMyIgcng9IjEyIiByeT0iMyIgZmlsbD0iI0Y0RUVGMCIvPjwvZz48L3N2Zz4=")}
+.ic-mercearia{--ic:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+PGVsbGlwc2UgY3g9IjYwIiBjeT0iMTA2IiByeD0iNDIiIHJ5PSI2IiBmaWxsPSIjM2EyYTE4IiBvcGFjaXR5PSIwLjE4Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNzAsMjIpIHJvdGF0ZSgxOCkiPjxyZWN0IHg9Ii05IiB5PSIwIiB3aWR0aD0iMTgiIGhlaWdodD0iNzQiIHJ4PSI5IiBmaWxsPSIjRDdBMTVBIi8+PHBhdGggZD0iTS02IDEyIGwxMiAtNiIgc3Ryb2tlPSIjQTg2RjJFIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0tNiAyNiBsMTIgLTYiIHN0cm9rZT0iI0E4NkYyRSIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNLTYgNDAgbDEyIC02IiBzdHJva2U9IiNBODZGMkUiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTS02IDU0IGwxMiAtNiIgc3Ryb2tlPSIjQTg2RjJFIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvZz48cGF0aCBkPSJNMjggNDYgTDkyIDQ2IEw4OCAxMDQgTDMyIDEwNFoiIGZpbGw9IiNDOUEwNkEiLz48cGF0aCBkPSJNMjggNDYgTDkyIDQ2IEw5MCA1NiBMMzAgNTZaIiBmaWxsPSIjQjg4QjUyIi8+PHBhdGggZD0iTTQ4IDcwIGgyNCIgc3Ryb2tlPSIjMDA0NTQxIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iLjciLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0MCw0OCkiPjxnIHRyYW5zZm9ybT0icm90YXRlKC0yMCkgc2NhbGUoMC4zKSI+PHBhdGggZD0iTTAgMCBMMCAtNjAiIHN0cm9rZT0iIzRBNUEzNCIgc3Ryb2tlLXdpZHRoPSIyLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0wIC04IGwtMTIgLTYiIHN0cm9rZT0iIzNFOEE0RSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMCAtOCBsMTIgLTYiIHN0cm9rZT0iIzNFOEE0RSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMCAtMTYgbC0xMiAtNiIgc3Ryb2tlPSIjM0U4QTRFIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0wIC0xNiBsMTIgLTYiIHN0cm9rZT0iIzNFOEE0RSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMCAtMjQgbC0xMiAtNiIgc3Ryb2tlPSIjM0U4QTRFIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0wIC0yNCBsMTIgLTYiIHN0cm9rZT0iIzNFOEE0RSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMCAtMzIgbC0xMiAtNiIgc3Ryb2tlPSIjM0U4QTRFIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0wIC0zMiBsMTIgLTYiIHN0cm9rZT0iIzNFOEE0RSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMCAtNDAgbC0xMiAtNiIgc3Ryb2tlPSIjM0U4QTRFIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0wIC00MCBsMTIgLTYiIHN0cm9rZT0iIzNFOEE0RSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMCAtNDggbC0xMiAtNiIgc3Ryb2tlPSIjM0U4QTRFIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0wIC00OCBsMTIgLTYiIHN0cm9rZT0iIzNFOEE0RSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMCAtNTYgbC0xMiAtNiIgc3Ryb2tlPSIjM0U4QTRFIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0wIC01NiBsMTIgLTYiIHN0cm9rZT0iIzNFOEE0RSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L2c+PC9nPjwvc3ZnPg==")}
+.ic-tabuas{--ic:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+PGVsbGlwc2UgY3g9IjYwIiBjeT0iMTAwIiByeD0iNTAiIHJ5PSI3IiBmaWxsPSIjM2EyYTE4IiBvcGFjaXR5PSIwLjE4Ii8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoOCwzNCkiPjxyZWN0IHg9IjAiIHk9IjEwIiB3aWR0aD0iMTA0IiBoZWlnaHQ9IjU4IiByeD0iMTYiIGZpbGw9IiM2RTNGMUYiLz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTA0IiBoZWlnaHQ9IjU4IiByeD0iMTYiIGZpbGw9IiNCMDc0NDQiLz48cGF0aCBkPSJNMjQgMjQgQzMxIDE2IDYyIDMyIDgwIDIyIiBzdHJva2U9IiM4QzU1MzAiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjM1Ii8+PHBhdGggZD0iTTI0IDMxIEMzMSAyMyA2MiAzOSA4MCAyOSIgc3Ryb2tlPSIjOEM1NTMwIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii4zNSIvPjxwYXRoIGQ9Ik0yNCAzNyBDMzEgMjkgNjIgNDUgODAgMzUiIHN0cm9rZT0iIzhDNTUzMCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuMzUiLz48cGF0aCBkPSJNMjQgNDQgQzMxIDM2IDYyIDUyIDgwIDQyIiBzdHJva2U9IiM4QzU1MzAiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjM1Ii8+PHBhdGggZD0iTTI0IDUwIEMzMSA0MiA2MiA1OCA4MCA0OCIgc3Ryb2tlPSIjOEM1NTMwIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii4zNSIvPjxwYXRoIGQ9Ik0yNCA1NyBDMzEgNDkgNjIgNjUgODAgNTUiIHN0cm9rZT0iIzhDNTUzMCIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIiBvcGFjaXR5PSIuMzUiLz48cGF0aCBkPSJNMjQgNjMgQzMxIDU1IDYyIDcxIDgwIDYxIiBzdHJva2U9IiM4QzU1MzAiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iLjM1Ii8+PHBhdGggZD0iTTI0IDcwIEMzMSA2MiA2MiA3OCA4MCA2OCIgc3Ryb2tlPSIjOEM1NTMwIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9Ii4zNSIvPjxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSI5MiIgaGVpZ2h0PSI0NiIgcng9IjEwIiBmaWxsPSJub25lIiBzdHJva2U9IiNDOThENUMiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iLjYiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjIsNDQpIHNjYWxlKC40MikiPjxnIHRyYW5zZm9ybT0ic2NhbGUoMSkiPjxwb2x5Z29uIHBvaW50cz0iMCwzMCA3MCwwIDkyLDI2IDIyLDU4IiBmaWxsPSIjRjZDRjVFIi8+PHBvbHlnb24gcG9pbnRzPSIyMiw1OCA5MiwyNiA5Miw1MiAyMiw4NiIgZmlsbD0iI0UzQTgzQSIvPjxwb2x5Z29uIHBvaW50cz0iMCwzMCAyMiw1OCAyMiw4NiAwLDU4IiBmaWxsPSIjRDU5QTJDIi8+PHBvbHlsaW5lIHBvaW50cz0iMCwzMCA3MCwwIDkyLDI2IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkU3QTAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvZz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNzYsNjIpIj48Y2lyY2xlIHI9IjEwIiBmaWxsPSIjOEUyNDMwIi8+PGNpcmNsZSByPSI4IiBmaWxsPSIjQjIzQTQ0Ii8+PGNpcmNsZSBjeD0iNC44IiBjeT0iMS41IiByPSIxLjIiIGZpbGw9IiNGNkQ5Q0YiLz48Y2lyY2xlIGN4PSIxLjEiIGN5PSI2LjEiIHI9IjEuMiIgZmlsbD0iI0Y2RDlDRiIvPjxjaXJjbGUgY3g9Ii0yLjgiIGN5PSIyLjEiIHI9IjEuMiIgZmlsbD0iI0Y2RDlDRiIvPjxjaXJjbGUgY3g9Ii01LjQiIGN5PSItMi43IiByPSIxLjIiIGZpbGw9IiNGNkQ5Q0YiLz48Y2lyY2xlIGN4PSItMC41IiBjeT0iLTQuNSIgcj0iMS4yIiBmaWxsPSIjRjZEOUNGIi8+PGNpcmNsZSBjeD0iNS4xIiBjeT0iLTQuMiIgcj0iMS4yIiBmaWxsPSIjRjZEOUNGIi8+PGNpcmNsZSBjeD0iMC45IiBjeT0iMS4yIiByPSIxLjIiIGZpbGw9IiNGNkQ5Q0YiLz48L2c+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoOTAsNTYpIj48Y2lyY2xlIHI9IjgiIGZpbGw9IiM4RTI0MzAiLz48Y2lyY2xlIHI9IjYiIGZpbGw9IiNCMjNBNDQiLz48Y2lyY2xlIGN4PSIzLjgiIGN5PSIxLjIiIHI9IjEuMCIgZmlsbD0iI0Y2RDlDRiIvPjxjaXJjbGUgY3g9IjAuOCIgY3k9IjQuOSIgcj0iMS4wIiBmaWxsPSIjRjZEOUNGIi8+PGNpcmNsZSBjeD0iLTIuMiIgY3k9IjEuNyIgcj0iMS4wIiBmaWxsPSIjRjZEOUNGIi8+PGNpcmNsZSBjeD0iLTQuMyIgY3k9Ii0yLjEiIHI9IjEuMCIgZmlsbD0iI0Y2RDlDRiIvPjxjaXJjbGUgY3g9Ii0wLjQiIGN5PSItMy42IiByPSIxLjAiIGZpbGw9IiNGNkQ5Q0YiLz48Y2lyY2xlIGN4PSI0LjEiIGN5PSItMy4zIiByPSIxLjAiIGZpbGw9IiNGNkQ5Q0YiLz48Y2lyY2xlIGN4PSIwLjciIGN5PSIwLjkiIHI9IjEuMCIgZmlsbD0iI0Y2RDlDRiIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2Niw0OCkgc2NhbGUoLjUpIj48ZyB0cmFuc2Zvcm09InNjYWxlKDEpIj48cGF0aCBkPSJNMTcgLTEwIEMxOCAtMTggMjQgLTIyIDMwIC0yNCIgc3Ryb2tlPSIjNkU1QTJFIiBzdHJva2Utd2lkdGg9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0yNCAtMTggQzMyIC0yNiA0NCAtMjIgNDYgLTE0IEMzOCAtMTIgMzAgLTEyIDI0IC0xOFoiIGZpbGw9IiM3QzlBNEEiLz48Y2lyY2xlIGN4PSIwIiBjeT0iMCIgcj0iOC41IiBmaWxsPSIjNkIyRDVDIi8+PGNpcmNsZSBjeD0iLTIuNSIgY3k9Ii0zIiByPSIyLjYiIGZpbGw9IiM5QzRFODgiLz48Y2lyY2xlIGN4PSIxNCIgY3k9IjIiIHI9IjguNSIgZmlsbD0iIzZCMkQ1QyIvPjxjaXJjbGUgY3g9IjExLjUiIGN5PSItMSIgcj0iMi42IiBmaWxsPSIjOUM0RTg4Ii8+PGNpcmNsZSBjeD0iMjgiIGN5PSIwIiByPSI4LjUiIGZpbGw9IiM2QjJENUMiLz48Y2lyY2xlIGN4PSIyNS41IiBjeT0iLTMiIHI9IjIuNiIgZmlsbD0iIzlDNEU4OCIvPjxjaXJjbGUgY3g9IjciIGN5PSIxMiIgcj0iOC41IiBmaWxsPSIjNkIyRDVDIi8+PGNpcmNsZSBjeD0iNC41IiBjeT0iOSIgcj0iMi42IiBmaWxsPSIjOUM0RTg4Ii8+PGNpcmNsZSBjeD0iMjEiIGN5PSIxMyIgcj0iOC41IiBmaWxsPSIjNkIyRDVDIi8+PGNpcmNsZSBjeD0iMTguNSIgY3k9IjEwIiByPSIyLjYiIGZpbGw9IiM5QzRFODgiLz48Y2lyY2xlIGN4PSIzNSIgY3k9IjExIiByPSI4LjUiIGZpbGw9IiM2QjJENUMiLz48Y2lyY2xlIGN4PSIzMi41IiBjeT0iOCIgcj0iMi42IiBmaWxsPSIjOUM0RTg4Ii8+PGNpcmNsZSBjeD0iMTMiIGN5PSIyNCIgcj0iOC41IiBmaWxsPSIjNkIyRDVDIi8+PGNpcmNsZSBjeD0iMTAuNSIgY3k9IjIxIiByPSIyLjYiIGZpbGw9IiM5QzRFODgiLz48Y2lyY2xlIGN4PSIyNyIgY3k9IjI0IiByPSI4LjUiIGZpbGw9IiM2QjJENUMiLz48Y2lyY2xlIGN4PSIyNC41IiBjeT0iMjEiIHI9IjIuNiIgZmlsbD0iIzlDNEU4OCIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMzUiIHI9IjguNSIgZmlsbD0iIzZCMkQ1QyIvPjxjaXJjbGUgY3g9IjE3LjUiIGN5PSIzMiIgcj0iMi42IiBmaWxsPSIjOUM0RTg4Ii8+PGNpcmNsZSBjeD0iNiIgY3k9IjI1IiByPSI4LjUiIGZpbGw9IiM2QjJENUMiLz48Y2lyY2xlIGN4PSIzLjUiIGN5PSIyMiIgcj0iMi42IiBmaWxsPSIjOUM0RTg4Ii8+PC9nPjwvZz48L3N2Zz4=")}
 
 /* ---------- tábua ---------- */
 .tb-h{margin-bottom:1rem}
@@ -222,46 +346,11 @@ body.natal::after{opacity:1;background:radial-gradient(1.5px 1.5px at 12% 18%,rg
 .nt-ramo{display:block;width:150px;height:50px;margin:0 0 .1rem}
 .nt-ouro{background:linear-gradient(180deg,#FFF2E3 30%,#E9C9A0);-webkit-background-clip:text;background-clip:text;color:transparent}
 .login-hero .nt-ey{color:#F6DDB0}
-.nt-hero{display:none;grid-template-columns:1.1fr 1fr;gap:1.8rem;align-items:center;padding:1.3rem;margin-bottom:1.4rem;border-radius:1.4rem;border:1px solid rgba(233,201,160,.45);background:radial-gradient(40rem 16rem at 0% 0%,rgba(198,36,59,.22),transparent 60%),linear-gradient(180deg,rgba(255,242,227,.07),rgba(255,242,227,.02))}
-body.natal .nt-hero{display:grid}
-.nt-hero .eyebrow{color:#F6DDB0}
-.nt-hero h3{font-size:clamp(2rem,5.5vw,3rem);line-height:1.05;margin:.4rem 0 .7rem}
-.nt-hero p.lead{color:var(--muted);max-width:30rem}
-.nt-ctas{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.1rem}
-.nt-ctas .btn{flex:1 1 13rem}
 .btn.nt-btn{background:#C6243B;border-color:#C6243B;color:#FFF2E3}
 .btn.nt-btn:hover{box-shadow:0 0 0 4px rgba(198,36,59,.25),0 0 28px rgba(198,36,59,.35)}
-.nt-cont{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
-.nt-cont div{min-width:4.4rem;text-align:center;border:1px solid rgba(233,201,160,.45);border-radius:.8rem;padding:.45rem .5rem;background:rgba(198,36,59,.12)}
-.nt-cont b{display:block;font:400 1.8rem/1 var(--display);color:#F6DDB0}
-.nt-cont span{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.nt-micro{font-size:.88rem;color:var(--muted);margin-top:.5rem}
-.nt-micro b{color:var(--cream)}
-.nt-fim{margin-top:1rem;padding:.8rem 1rem;border-radius:.8rem;border:1px solid rgba(246,221,176,.45);background:rgba(198,36,59,.16);font-weight:700}
-.nt-foto{position:relative;border-radius:1.2rem;overflow:hidden;aspect-ratio:1/1;border:2px solid rgba(233,201,160,.55);box-shadow:0 0 0 6px rgba(198,36,59,.18),0 30px 60px -30px rgba(0,0,0,.7);background:var(--bg1)}
-.nt-foto img{width:100%;height:100%;object-fit:cover;display:block}
-.nt-foto .logo{position:absolute;top:50%;left:50%;width:5rem;height:5rem;margin:-2.5rem 0 0 -2.5rem;color:var(--cream);opacity:.25}
-.nt-selo{position:absolute;top:.9rem;left:.9rem;z-index:2;background:#C6243B;color:#FFF2E3;font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.35rem .7rem;border-radius:99px;box-shadow:0 6px 14px rgba(0,0,0,.25)}
-.nt-ocas{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin:0 0 1.4rem}
-.nt-ocas div{padding:.9rem;border-radius:1rem;border:1px solid rgba(233,201,160,.3);background:linear-gradient(180deg,rgba(198,36,59,.10),rgba(255,242,227,.03))}
-.nt-ocas b{display:block;font:400 1.25rem var(--display);color:#F6DDB0;margin-bottom:.2rem}
-.nt-ocas span{font-size:.88rem;color:var(--muted)}
-.nt-gal{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin:0 0 1.4rem}
-.nt-gal img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:.9rem;border:1px solid rgba(233,201,160,.3);display:block}
-.nt-pres{display:none;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;padding:1.1rem 1.3rem;margin-bottom:1.4rem;border-radius:1.2rem;border:1px solid rgba(233,201,160,.45);background:linear-gradient(135deg,rgba(198,36,59,.18),rgba(0,69,65,.5))}
-body.natal .nt-pres{display:flex}
-.nt-pres h3{font-size:1.7rem}
-.nt-pres p{color:var(--muted);margin-top:.2rem;max-width:36rem}
 .p .tag.nt-tag{background:#C6243B;border:1px solid rgba(246,221,176,.5)}
-body.natal .port .p{border-color:rgba(233,201,160,.35)}
-body.natal .view-b[aria-pressed="true"]{box-shadow:0 0 0 2px rgba(198,36,59,.55)}
-@media(max-width:46rem){
-  body.natal .nt-hero{grid-template-columns:1fr;padding:1rem}
-  .nt-foto{order:-1;aspect-ratio:4/3}
-  .nt-ocas{grid-template-columns:1fr 1fr}
-  .nt-gal{grid-template-columns:1fr 1fr}
-}
-body.natal .nt-ocas,body.natal .nt-gal{display:grid}
+body.natal .bn{border-color:rgba(233,201,160,.55);box-shadow:0 0 0 4px rgba(198,36,59,.12)}
+body.natal .p.tb{border-color:rgba(233,201,160,.35)}
 </style>
 
 <div id="app">
@@ -311,72 +400,117 @@ body.natal .nt-ocas,body.natal .nt-gal{display:grid}
     <div class="demo" id="demo" hidden>Produtos e preços de exemplo, aguardando o catálogo real da loja.</div>
     <header class="top">
       <div class="top-in">
-        <div class="logo horiz" role="img" aria-label="Gran Gusto Empório"></div>
-        <div class="tools" role="group" aria-label="Tamanho do texto">
-          <button class="btn" id="fs-menos" aria-label="Diminuir o texto">A−</button>
-          <button class="btn" id="fs-mais" aria-label="Aumentar o texto">A+</button>
-        </div>
+        <button class="ic-btn" id="menu-b" aria-label="Abrir o menu" aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <button class="logo-b" id="logo-b" aria-label="Gran Gusto Empório: voltar ao início"><div class="logo horiz"></div></button>
+        <label class="sbox">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input id="busca" type="search" placeholder="O que você procura? Ex.: brie, geleia" aria-label="Procurar produto" autocomplete="off">
+          <button class="x" id="busca-x" type="button" aria-label="Limpar a busca" hidden>×</button>
+        </label>
+        <button class="ic-btn" id="cart-b" aria-label="Ver meu pedido">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          <span class="badge" id="cart-n" hidden></span>
+        </button>
       </div>
     </header>
     <main class="wrap">
-      <div class="hello">
-        <h2 id="ola"></h2>
-        <button id="sair">Não sou eu / Sair</button>
-      </div>
-      <div class="views" role="group" aria-label="O que você quer fazer?">
-        <button class="view-b" data-v="produtos" aria-pressed="true">Produtos</button>
-        <button class="view-b" data-v="tabua" aria-pressed="false">Monte sua tábua</button>
-      </div>
-
       <div id="view-produtos">
-        <section class="nt-hero" aria-label="Fim de ano Gran Gusto">
-          <div>
-            <svg class="nt-ramo" viewBox="0 0 120 40" aria-hidden="true"><g fill="none" stroke="#E9C9A0" stroke-width="1.2" stroke-linecap="round"><path d="M4 30C30 22 60 18 116 10"/><path d="M20 26l-6-8M20 26l-2 9M36 23l-5-9M36 23l0 10M52 20l-3-9M52 20l2 9M68 17l-2-9M68 17l3 8M84 15l-1-8M84 15l4 7M100 12l1-7M100 12l5 6"/></g><g fill="#C6243B"><circle cx="44" cy="27" r="2.6"/><circle cx="49" cy="29" r="2.2"/><circle cx="92" cy="20" r="2.4"/></g></svg>
-            <div class="eyebrow" id="nt-ey">Natal e Ano Novo</div>
-            <h3 class="nt-ouro">A tábua que reúne todo mundo à mesa neste fim de ano</h3>
-            <p class="lead">Tábuas prontas para 4, 7 e 10 pessoas, montadas no dia com queijos e frios fracionados na hora. Chegam prontas para servir, e você aproveita a festa.</p>
-            <div class="nt-ctas"><button class="btn nt-btn" data-nt="prontas">Ver tábuas prontas</button><button class="btn sec" data-nt="montar">Montar a minha</button></div>
-            <div id="nt-prazo">
-              <div class="nt-cont" aria-label="Tempo restante para encomendar"><div><b id="nt-d">0</b><span>dias</span></div><div><b id="nt-h">0</b><span>horas</span></div><div><b id="nt-m">0</b><span>min</span></div></div>
-              <p class="nt-micro">para encerrar os pedidos de tábuas para <b>24 e 31 de dezembro</b> · as outras datas seguem normalmente</p>
-            </div>
-            <p class="nt-fim" id="nt-fim" hidden></p>
+        <!-- INÍCIO -->
+        <div id="home">
+          <div class="bns rowx" id="bns">
+            <article class="bn">
+              <div class="bn-tx"><p class="sobre" id="bn1-s">Tábuas de frios</p><h2 id="bn1-h">Tábuas prontas</h2><p id="bn1-p">Para 4, 7 e 10 pessoas, montadas no dia com queijos e frios cortados na hora.</p></div>
+              <div class="bn-ft"><div class="logo mono"></div><img data-foto="im-hero" alt="Tábua redonda Gran Gusto com queijos, frios, figos, morangos e uvas" hidden></div>
+              <button class="btn" id="bn1-b" data-ir="prontas">Ver tábuas prontas</button>
+            </article>
+            <article class="bn">
+              <div class="bn-tx"><p class="sobre">Do seu jeito</p><h2>Monte a sua tábua</h2><p>Você escolhe os queijos, os frios e as frutas, e já vê o valor.</p></div>
+              <div class="bn-ft"><div class="logo mono"></div><img data-foto="im-g5" alt="Tábua redonda com kiwi, morangos, brie e frios" hidden></div>
+              <button class="btn" data-ir="montar">Começar a montar</button>
+            </article>
+            <article class="bn">
+              <div class="bn-tx"><p class="sobre" id="bn3-s">Para presentear</p><h2>Presentes que se comem</h2><p>Licores, cachaças, mel, geleias e a tábua na base MDF Gran Gusto.</p></div>
+              <div class="bn-ft"><div class="logo mono"></div><img data-foto="im-g2" alt="Tábua com figos, presunto cru, brie e potes Gran Gusto" hidden></div>
+              <button class="btn" data-ir="Presentes">Ver presentes</button>
+            </article>
           </div>
-          <div class="nt-foto"><span class="nt-selo">Edição fim de ano</span><div class="logo mono"></div><img id="nt-img" alt="Tábua Gran Gusto com queijos, frios, figos, morangos e uvas" hidden></div>
-        </section>
-        <div class="nt nt-ocas">
-          <div><b>Ceia de Natal</b><span>Entrada elegante enquanto a ceia fica pronta.</span></div>
-          <div><b>Réveillon</b><span>Combina com espumante até a virada.</span></div>
-          <div><b>Confraternização</b><span>Serve todo mundo sem ninguém na cozinha.</span></div>
-          <div><b>Presente</b><span>Na base MDF, a tábua fica com quem recebe.</span></div>
+          <div class="bn-dots" id="bn-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+
+          <div class="vant rowx">
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h11v8H3zM14 10h4l3 3v2h-7"/><circle cx="7" cy="17" r="1.8"/><circle cx="17" cy="17" r="1.8"/></svg><p><b id="vt-ent">Entrega no norte da Ilha</b><span>Ingleses e bairros vizinhos</span></p></div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14l9-9 6 6-9 9z"/><path d="M13 5l2-2M8 15h.01M11 12h.01"/></svg><p><b>Cortado na hora</b><span>Fatiado, ralado ou em pedaço</span></p></div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19l1.5-4A8 8 0 1 1 9 18.5z"/></svg><p><b>Pedido pelo WhatsApp</b><span>Pix ou link do cartão</span></p></div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10l8-6 8 6v10H4z"/><path d="M10 20v-6h4v6"/></svg><p><b>Retire na loja</b><span id="vt-hor">Seg a sáb, 7h30 às 19h</span></p></div>
+          </div>
+
+          <section class="home-sec" aria-labelledby="t-deps">
+            <h2 class="h2" id="t-deps">Departamentos</h2>
+            <div class="deps rowx" id="deps"></div>
+          </section>
+
+          <section class="home-sec" id="prontas" aria-labelledby="t-prontas" style="scroll-margin-top:9rem">
+            <p class="sobre" id="pr-s">Escolha o tamanho</p>
+            <h2 class="h2" id="t-prontas">Tábuas prontas</h2>
+            <p class="hint" id="pr-p">Chegam prontas para servir. Na madeira ou no MDF, pelo mesmo valor.</p>
+            <div class="g2" id="port-home"></div>
+            <button class="btn sec mais" data-ir="montar">Prefere escolher os itens? Monte a sua</button>
+          </section>
+
+          <div id="vitrines"></div>
+
+          <footer class="rod">
+            <div class="logo horiz" role="img" aria-label="Gran Gusto Empório"></div>
+            <p id="rod-end"></p>
+            <p id="rod-hor"></p>
+            <p>WhatsApp da loja: <a id="rod-wa" href="#" target="_blank" rel="noopener"></a></p>
+            <button type="button" data-sair>Não sou eu / Sair</button>
+          </footer>
         </div>
-        <div class="nt nt-gal" id="nt-gal" hidden></div>
-        <div class="cta glass nt-off">
-          <div><h3>Tábuas de frios</h3><p>Escolha uma pronta ou monte a sua, na madeira ou no MDF.</p></div>
-          <button class="btn" data-goto="tabua">Montar minha tábua</button>
+
+        <!-- LISTA: departamento, ofertas, presentes ou busca -->
+        <div id="lista" hidden>
+          <div class="lista-h">
+            <button class="voltar" id="voltar-ini">‹ Voltar ao início</button>
+            <h1 id="lista-t"></h1>
+            <p id="lista-n"></p>
+          </div>
+          <div class="chips rowx" id="chips" role="group" aria-label="Departamentos"></div>
+          <div id="catalogo"></div>
         </div>
-        <div class="nt-pres">
-          <div><h3>Presentes de fim de ano</h3><p>Uma tábua na base MDF Gran Gusto, cachaças, licores, mel e geleias: presentes que se comem e ficam na lembrança.</p></div>
-          <button class="btn nt-btn" data-nt="prontas">Tábua para presentear</button>
-        </div>
-        <div class="search">
-          <label class="f" for="busca">Procurar produto</label>
-          <input class="in" id="busca" type="search" placeholder="Ex.: parmesão, geleia, cachaça">
-        </div>
-        <div class="chips" id="chips" role="group" aria-label="Categorias"></div>
-        <div id="catalogo"></div>
       </div>
 
-      <div id="view-tabua" hidden><div id="tabua"></div></div>
+      <div id="view-tabua" hidden>
+        <button class="voltar" data-inicio>‹ Voltar ao início</button>
+        <div id="tabua"></div>
+      </div>
     </main>
+
+    <a class="wa" id="wa" href="#" target="_blank" rel="noopener" aria-label="Falar com a loja pelo WhatsApp">
+      <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 4.9-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8.9c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.9 2c0 1.2.9 2.4 1 2.5.1.2 1.7 2.6 4.2 3.6 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3z"/></svg>
+    </a>
     <div class="bar" id="bar" hidden>
       <div class="bar-in">
         <div><span id="bar-n"></span><small id="bar-t"></small></div>
-        <button class="btn" id="bar-btn">Revisar e finalizar pedido</button>
+        <button class="btn" id="bar-btn">Ver pedido</button>
       </div>
     </div>
   </section>
 </div>
+
+<dialog id="dlg-menu" aria-label="Menu">
+  <div class="dlg">
+    <div class="dlg-h"><div class="logo horiz" role="img" aria-label="Gran Gusto Empório"></div><button class="x" id="menu-x" aria-label="Fechar o menu">×</button></div>
+    <h2 id="ola"></h2>
+    <div class="m-ctas"><button class="btn nt-btn" data-ir="prontas">Tábuas prontas</button><button class="btn sec" data-ir="montar">Monte a sua</button></div>
+    <p class="sobre" style="margin-top:.4rem">Departamentos</p>
+    <div class="m-deps" id="m-deps"></div>
+    <div class="m-fs" role="group" aria-label="Tamanho das letras"><span>Tamanho das letras</span><span><button class="btn" id="fs-menos" aria-label="Diminuir as letras">A−</button> <button class="btn" id="fs-mais" aria-label="Aumentar as letras">A+</button></span></div>
+    <a class="btn sec" id="m-wa" href="#" target="_blank" rel="noopener">Falar com a loja no WhatsApp</a>
+    <button class="m-sair" id="sair" data-sair>Não sou eu / Sair</button>
+  </div>
+</dialog>
 
 <dialog id="dlg-prod" aria-labelledby="pd-nome"><div class="dlg" id="pd"></div></dialog>
 
@@ -506,7 +640,7 @@ function galAtual(ph){ const g=ph.querySelector('.gs'); const n=g.children.lengt
 document.addEventListener('click',e=>{ const b=e.target.closest('[data-ga]'); if(!b) return; e.preventDefault(); const ph=b.closest('[data-gal]'); const g=ph.querySelector('.gs'); const n=g.children.length; let i=galAtual(ph)+(+b.dataset.ga); if(i<0) i=n-1; if(i>=n) i=0; g.scrollTo({left:i*g.clientWidth,behavior:'smooth'}); });
 document.addEventListener('scroll',e=>{ const g=e.target; if(g&&g.classList&&g.classList.contains('gs')){ clearTimeout(g._t); g._t=setTimeout(()=>galAtual(g.closest('[data-gal]')),80); } },true);
 document.addEventListener('error',e=>{ const t=e.target; if(t&&t.tagName==='IMG'&&t.parentNode&&t.parentNode.classList&&t.parentNode.classList.contains('gs')){ const ph=t.closest('[data-gal]'); const k=[...t.parentNode.children].indexOf(t); t.remove(); const d=ph.querySelectorAll('.gd i')[k]; if(d) d.remove(); if(!ph.querySelector('.gs img')) ph.remove(); else galAtual(ph); return; } },true);
-document.addEventListener('error',e=>{ const t=e.target; if(t&&t.tagName==='IMG'){ if(!t.isConnected) return; const ph=t.closest('.ph'); if(ph){ if(ph.dataset.fb) ph.innerHTML='<div class="logo mono"></div>'; else ph.remove(); } } },true);
+document.addEventListener('error',e=>{ const t=e.target; if(t&&t.tagName==='IMG'){ if(!t.isConnected) return; const ph=t.closest('.ph'); if(ph){ if(ph.dataset.ic){ ph.className='ph ph-ic ic-'+ph.dataset.ic; ph.innerHTML='<div class="logo mono"></div>'; } else if(ph.dataset.fb) ph.innerHTML='<div class="logo mono"></div>'; else ph.remove(); } } },true);
 
 /* ============ ESTADO ============ */
 let cliente = store.get('gg_cliente', null);
@@ -573,10 +707,11 @@ $('#form-login').addEventListener('submit',e=>{
   enviarLead('cadastro');
   entrar();
 });
-$('#sair').onclick = () => {
+document.querySelectorAll('[data-sair]').forEach(b=>b.onclick = () => {
+  if($('#dlg-menu').open) $('#dlg-menu').close();
   cliente=null; carrinho=[]; tb=novoTb(); store.del('gg_cliente'); store.del('gg2_carrinho');
   $('#form-login').reset(); mostrar();
-};
+});
 function mostrar(){
   $('#tela-login').hidden = !!cliente;
   $('#tela-loja').hidden = !cliente;
@@ -587,11 +722,13 @@ function entrar(){
   $('#demo').hidden = !CFG.exemplo || !!CFG.apiUrl;
   $('#ola').textContent = 'Olá, ' + cliente.nome.split(' ')[0] + '!';
   window.scrollTo(0,0);
-  setView(location.hash==='#tabuas' ? 'tabua' : 'produtos'); renderTudo(); carregarDados();
+  tela='home'; $('#home').hidden=false; $('#lista').hidden=true; limpaBusca(); filtro='Todos';
+  setView(location.hash==='#tabuas' ? 'tabua' : 'produtos'); renderTudo(); renderBar(); carregarDados();
 }
 
 /* ============ NAVEGAÇÃO ============ */
 function setView(v){
+  if(v==='tabua' && view!=='tabua' && cliente) history.pushState({gg:'tabua'},'');
   view=v;
   $('#view-produtos').hidden = v!=='produtos';
   $('#view-tabua').hidden = v!=='tabua';
@@ -600,63 +737,210 @@ function setView(v){
   window.scrollTo(0,0);
 }
 document.querySelectorAll('.view-b').forEach(b=>b.onclick=()=>setView(b.dataset.v));
-document.querySelector('[data-goto]').onclick=()=>setView('tabua');
 
-/* ============ CATÁLOGO ============ */
+/* ============ CATÁLOGO: início (vitrines) e lista (departamento, ofertas, presentes, busca) ============ */
 const categorias = () => [...new Set(PRODUTOS.map(p=>p.cat))];
-const ofertas = () => PRODUTOS.some(p=>p.promo && p.status!=='falta');
-function renderChips(){
-  const lista = ['Todos', ...(ofertas()?['Ofertas']:[]), ...categorias()];
-  if(!lista.includes(filtro)) filtro='Todos';
-  $('#chips').innerHTML = lista.map(c=>`<button class="chip" data-c="${esc(c)}" aria-pressed="${c===filtro}">${esc(c)}</button>`).join('');
+const ehOferta = p => p.status!=='falta' && (p.promo!=null && p.promo!=='' || /promo[cç][aã]o/i.test(p.nome));
+const nomeCard = p => String(p.nome).replace(/\s*\bPromo[cç][aã]o\b\s*/i,' ').trim();
+const ofertas = () => PRODUTOS.some(ehOferta);
+const PRES_CATS = (CFG.presentesCategorias || ['Licores','Cachaças']).map(sa);
+const PRES_PAL = (CFG.presentesPalavras || ['mel ','geleia','pistache','kit ']).map(sa);
+const ehPresente = p => p.status!=='falta' && (PRES_CATS.includes(sa(p.cat)) || PRES_PAL.some(w=>sa(p.nome+' ').includes(w)));
+/* ícone de cada departamento (desenho usado no círculo e quando o produto ainda não tem foto) */
+function icone(cat){
+  const c=sa(cat);
+  if(/tabua/.test(c)) return 'tabuas';
+  if(/queij/.test(c)) return 'queijos';
+  if(/frio|embutid|salam|defumad/.test(c)) return 'frios';
+  if(/mel|geleia/.test(c)) return 'mel';
+  if(/cacha/.test(c)) return 'cachacas';
+  if(/licor/.test(c)) return 'licores';
+  if(/biscoit|bolach|doce/.test(c)) return 'biscoitos';
+  if(/latic|manteig|leite/.test(c)) return 'laticinios';
+  if(/salgad|petisc|castanh/.test(c)) return 'petiscos';
+  if(/conserv|azeit|molho/.test(c)) return 'conservas';
+  if(/massa/.test(c)) return 'massas';
+  if(/bebida|vinho|cerveja/.test(c)) return 'bebidas';
+  return 'mercearia';
 }
-$('#chips').addEventListener('click',e=>{ const b=e.target.closest('.chip'); if(!b) return; filtro=b.dataset.c; renderChips(); renderCatalogo(); });
-$('#busca').addEventListener('input',e=>{ busca=sa(e.target.value.trim()); renderCatalogo(); });
+const CURTO = {'frios e embutidos':'Frios','mel, geleias e doces':'Mel e geleias','biscoitos e doces':'Biscoitos','laticinios e manteigas':'Laticínios','salgadinhos e petiscos':'Petiscos','conservas, molhos e azeites':'Conservas e azeites','massas frescas':'Massas'};
+const rotulo = c => CURTO[sa(c)] || c;
 
+let tela = 'home';                 // 'home' ou 'lista'
+const ordena = l => [...l].sort((a,b)=>((a.status==='falta')-(b.status==='falta'))||a.nome.localeCompare(b.nome,'pt-BR'));
+
+function fotoPh(p){
+  const fs = String(p.foto||'').split(/[,\s]+/).filter(Boolean), ic = icone(p.cat);
+  if(fs.length>1) return `<div class="ph" data-gal data-ic="${ic}"><div class="gs">${fs.map((f,i)=>`<img src="${esc(imgUrl(f,520))}" alt="${esc(p.nome)} - foto ${i+1} de ${fs.length}" loading="lazy" decoding="async">`).join('')}</div><span class="gn">1/${fs.length}</span><button type="button" class="ga l" data-ga="-1" aria-label="Foto anterior">‹</button><button type="button" class="ga r" data-ga="1" aria-label="Próxima foto">›</button><div class="gd">${fs.map((f,i)=>`<i class="${i?'':'on'}"></i>`).join('')}</div></div>`;
+  if(fs.length) return `<div class="ph" data-ic="${ic}"><img src="${esc(imgUrl(fs[0],520))}" alt="" loading="lazy" decoding="async"></div>`;
+  return `<div class="ph ph-ic ic-${ic}"><div class="logo mono"></div></div>`;
+}
 function card(p){
-  const off = p.status==='falta';
-  const preco = p.unid==='kg' ? `<b>${brl(precoUn(p))}</b><span>por kg</span>` : `<b>${brl(precoUn(p))}</b>`;
-  const fs = String(p.foto||'').split(/[,\s]+/).filter(Boolean);
-  const foto = fs.length>1
-    ? `<div class="ph" data-gal><div class="gs">${fs.map((f,i)=>`<img src="${esc(imgUrl(f,520))}" alt="${esc(p.nome)} - foto ${i+1} de ${fs.length}" loading="lazy" decoding="async">`).join('')}</div><span class="gn">1/${fs.length}</span><button type="button" class="ga l" data-ga="-1" aria-label="Foto anterior">‹</button><button type="button" class="ga r" data-ga="1" aria-label="Próxima foto">›</button><div class="gd">${fs.map((f,i)=>`<i class="${i?'':'on'}"></i>`).join('')}</div></div>`
-    : fs.length ? `<div class="ph"><img src="${esc(imgUrl(fs[0],520))}" alt="" loading="lazy" decoding="async"></div>` : '';
+  const off = p.status==='falta', kg = p.unid==='kg', of = ehOferta(p);
   return `<article class="p ${off?'off':''}">
-    ${foto}
-    ${off?'<span class="tag falta">Em falta hoje</span>':(p.promo?'<span class="tag">Oferta</span>':'')}
-    <h4>${esc(p.nome)}</h4>
-    <p class="d">${esc(p.desc||'')}</p>
-    <div class="price">${preco}${p.promo&&!off?`<s>${brl(p.preco)}</s>`:''}</div>
-    ${off?'<button class="btn block" disabled>Indisponível hoje</button>':`<button class="btn block" data-id="${esc(p.id)}">Escolher</button>`}
+    ${fotoPh(p)}
+    ${off?'<span class="tag falta">Em falta hoje</span>':(of?'<span class="tag">Oferta</span>':'')}
+    <div class="pb">
+      <h4>${esc(nomeCard(p))}</h4>
+      ${p.desc?`<p class="d">${esc(p.desc)}</p>`:''}
+      <div class="price"><b>${brl(precoUn(p))}</b>${kg?'<span>/kg</span>':''}${p.promo&&!off?`<s>${brl(p.preco)}</s>`:''}</div>
+      <p class="p100">${kg?'100 g: '+brl(precoUn(p)/10):''}</p>
+      ${off?'<button class="btn block" disabled>Indisponível hoje</button>':`<button class="btn block" data-id="${esc(p.id)}">${kg?'Escolher':'Adicionar'}</button>`}
+    </div>
   </article>`;
 }
+
+/* ---- início ---- */
+function renderDeps(){
+  const cats = categorias();
+  const circ = [{k:'prontas', l:'Tábuas', ic:'tabuas'}, ...(ofertas()?[{k:'Ofertas', l:'Ofertas', ic:'queijos'}]:[]), ...cats.map(c=>({k:c, l:rotulo(c), ic:icone(c)}))];
+  $('#deps').innerHTML = circ.filter(c=>c.k!=='Ofertas').map(c=>`<button class="dep" data-ir="${esc(c.k)}"><i class="ic-${c.ic}" aria-hidden="true"></i><span>${esc(c.l)}</span></button>`).join('');
+  $('#m-deps').innerHTML = [...(ofertas()?[{k:'Ofertas', l:'Ofertas da semana', ic:'queijos'}]:[]), {k:'Presentes', l:'Presentes', ic:'licores'}, ...cats.map(c=>({k:c, l:c, ic:icone(c)}))]
+    .map(c=>`<button data-ir="${esc(c.k)}"><i class="ic-${c.ic}" aria-hidden="true"></i><span>${esc(c.l)}</span></button>`).join('');
+}
+function cardTabua(x, i){
+  const off = x.status==='falta';
+  /* tábuas prontas sem foto: as fotos de exemplo não correspondem à tábua montada */
+  return `<article class="p tb ${off?'off':''}">
+    <div class="pb">${off?'<span class="tag falta">Indisponível</span>':NATAL?'<span class="tag nt-tag">Fim de ano</span>':''}<h4>${esc(x.nome)}</h4><p class="pess">Para ${x.pessoas} pessoas · ${ocTxt(x.ocasiao)}</p>
+    <div class="price"><b>${brl(x.preco)}</b></div>
+    ${off?'<button class="btn block" disabled>Indisponível</button>':`<button class="btn block" data-preset="${esc(x.id)}">Encomendar</button>`}</div></article>`;
+}
+function renderPortHome(){
+  $('#port-home').innerHTML = PORTFOLIO.length ? PORTFOLIO.map(cardTabua).join('') : '<p class="empty">As tábuas prontas serão publicadas em breve. Enquanto isso, monte a sua do jeito que preferir.</p>';
+}
+/* vitrines do início: edite em config.js (vitrines). Produtos pelo nome; sem nome, entram os primeiros do departamento */
+function achaNome(n){ const s=sa(n); return PRODUTOS.find(p=>sa(p.nome)===s) || PRODUTOS.find(p=>sa(p.nome).startsWith(s)); }
+function renderVitrines(){
+  const vs = [];
+  const of = ordena(PRODUTOS.filter(ehOferta));
+  if(of.length) vs.push({sobre:'Preço especial', titulo:'Ofertas da semana', itens:of.slice(0,4), ir:'Ofertas', mais:'Ver todas as ofertas ('+of.length+')'});
+  (CFG.vitrines || [
+    {sobre:'Escolhidos pelo Empório', titulo:'Queijos da casa', ver:'Queijos', produtos:['Gouda Holandês','Brie Francês Paysan Breton','Gorgonzola Dinamarquês','Parmesão Faixa Azul 12 Meses']},
+    {sobre:NATAL?'Fim de ano':'Para presentear', titulo:'Para presentear', ver:'Presentes', produtos:['Licor Creme Doce de Leite com Pistache 750 ml','Cachaça Envelhecida Amburana 700 ml','Creme de Pistache Predilecta 220 g','Kit Licor Bylaardt']}
+  ]).forEach(v=>{
+    let itens = (v.produtos||[]).map(achaNome).filter(p=>p && p.status!=='falta');
+    const base = v.ver==='Presentes' ? PRODUTOS.filter(ehPresente) : v.ver==='Ofertas' ? of : PRODUTOS.filter(p=>p.cat===v.ver && p.status!=='falta');
+    if(itens.length<4) itens = itens.concat(base.filter(p=>!itens.includes(p))).slice(0,4);
+    if(!itens.length) return;
+    const n = v.ver==='Presentes' ? base.length : PRODUTOS.filter(p=>p.cat===v.ver).length;
+    vs.push({sobre:v.sobre||'', titulo:v.titulo, itens:itens.slice(0,4), ir:v.ver, mais:v.ver==='Presentes'?'Ver todos os presentes':'Ver tudo em '+rotulo(v.ver).toLowerCase()+' ('+n+')'});
+  });
+  $('#vitrines').innerHTML = vs.map(v=>`<section class="home-sec">${v.sobre?`<p class="sobre">${esc(v.sobre)}</p>`:''}<h2 class="h2">${esc(v.titulo)}</h2>
+    <div class="g4">${v.itens.map(card).join('')}</div>
+    <button class="btn sec mais" data-ir="${esc(v.ir)}">${esc(v.mais)}</button></section>`).join('');
+}
+
+/* ---- lista ---- */
+function renderChips(){
+  const lista = ['Todos', ...(ofertas()?['Ofertas']:[]), 'Presentes', ...categorias()];
+  if(!lista.includes(filtro)) filtro='Todos';
+  $('#chips').innerHTML = lista.map(c=>`<button class="chip" data-c="${esc(c)}" aria-pressed="${!busca && c===filtro}">${esc(c==='Todos'?'Tudo':rotulo(c))}</button>`).join('');
+}
+$('#chips').addEventListener('click',e=>{ const b=e.target.closest('.chip'); if(!b) return; limpaBusca(); filtro=b.dataset.c; renderChips(); renderCatalogo(); b.scrollIntoView({block:'nearest',inline:'center'}); });
 function secao(titulo, itens){
-  const l=[...itens].sort((a,b)=>((a.status==='falta')-(b.status==='falta'))||a.nome.localeCompare(b.nome,'pt-BR'));
+  const l=ordena(itens);
   return `<div class="sec-t"><h3>${esc(titulo)}</h3><span>${l.length} ${l.length===1?'item':'itens'}</span></div><div class="grid">${l.map(card).join('')}</div>`;
 }
 function renderCatalogo(){
-  let base = PRODUTOS;
-  if(busca) base = base.filter(p=>sa(p.nome+' '+(p.desc||'')+' '+p.cat).includes(busca));
-  let html='';
-  if(!base.length){ html='<p class="empty">Nenhum produto encontrado. Tente outra palavra ou veja todas as categorias.</p>'; }
-  else if(busca || filtro!=='Todos'){
-    const l = filtro==='Ofertas' ? base.filter(p=>p.promo&&p.status!=='falta') : filtro==='Todos' ? base : base.filter(p=>p.cat===filtro);
-    html = l.length ? secao(busca?'Resultado da busca':filtro, l) : '<p class="empty">Nenhum produto nesta categoria.</p>';
-  } else {
-    const of = base.filter(p=>p.promo && p.status!=='falta');
+  if(tela!=='lista') return;
+  let base = PRODUTOS, html='', n=0, titulo;
+  if(busca){
+    base = base.filter(p=>sa(p.nome+' '+(p.desc||'')+' '+p.cat).includes(busca));
+    titulo = 'Busca: “'+$('#busca').value.trim()+'”';
+    n = base.length; html = n ? `<div class="grid">${ordena(base).map(card).join('')}</div>` : '';
+  } else if(filtro==='Todos'){
+    titulo = 'Todos os produtos'; n = base.length;
+    const of = base.filter(ehOferta);
     if(of.length) html += secao('Ofertas da semana', of);
     categorias().forEach(c=>{ const l=base.filter(p=>p.cat===c); if(l.length) html+=secao(c,l); });
+  } else {
+    const l = filtro==='Ofertas' ? base.filter(ehOferta) : filtro==='Presentes' ? base.filter(ehPresente) : base.filter(p=>p.cat===filtro);
+    titulo = filtro==='Ofertas' ? 'Ofertas da semana' : filtro; n = l.length;
+    html = n ? `<div class="grid">${ordena(l).map(card).join('')}</div>` : '';
   }
+  if(!n) html = `<p class="empty">${busca?'Não achamos esse produto. Tente outra palavra, veja os departamentos acima ou chame a loja no WhatsApp.':'Nenhum produto aqui no momento.'}</p>`;
+  $('#lista-t').textContent = titulo;
+  $('#lista-n').textContent = n+(n===1?' produto':' produtos');
   $('#catalogo').innerHTML = html;
 }
-$('#catalogo').addEventListener('click',e=>{ const b=e.target.closest('button[data-id]'); if(b) abrirProduto(b.dataset.id); });
+document.addEventListener('click',e=>{ const b=e.target.closest('button[data-id]'); if(b && b.closest('#tela-loja')) abrirProduto(b.dataset.id); });
+
+/* ---- navegação: início, lista, tábuas (o botão Voltar do celular volta ao início) ---- */
+function mostraTela(t, semHist){
+  const antes = tela; tela = t;
+  $('#home').hidden = t!=='home'; $('#lista').hidden = t!=='lista';
+  if(t==='lista'){ renderChips(); renderCatalogo(); if(antes!=='lista') window.scrollTo(0,0); }
+  if(!semHist && t!=='home' && antes==='home' && view==='produtos') history.pushState({gg:t},'');
+}
+function irLista(f){
+  limpaBusca(); filtro=f; if(view!=='produtos') setView('produtos');
+  mostraTela('lista'); window.scrollTo(0,0);
+}
+function irInicio(){
+  limpaBusca(); filtro='Todos'; if(view!=='produtos') setView('produtos');
+  mostraTela('home', true); window.scrollTo(0,0);
+}
+function irProntas(){
+  if(view!=='produtos') setView('produtos');
+  limpaBusca(); mostraTela('home', true);
+  setTimeout(()=>{ const s=$('#prontas'); if(s) s.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}); },30);
+}
+function irMontar(){ tb=Object.assign(novoTb(),{modo:'custom',passo:'quem'}); setView('tabua'); }
+window.addEventListener('popstate',()=>{ if(!cliente) return; if($('#dlg-menu').open) $('#dlg-menu').close(); if(view!=='produtos'){ view='produtos'; $('#view-produtos').hidden=false; $('#view-tabua').hidden=true; } limpaBusca(); filtro='Todos'; mostraTela('home', true); });
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-ir],[data-preset],[data-inicio]'); if(!b || !b.closest('#tela-loja,#dlg-menu')) return;
+  if($('#dlg-menu').open) $('#dlg-menu').close();
+  if(b.dataset.inicio!=null){ irInicio(); return; }
+  if(b.dataset.preset){ tb=Object.assign(novoTb(),{modo:'portfolio',passo:'final',preset:b.dataset.preset}); setView('tabua'); return; }
+  const k=b.dataset.ir;
+  if(k==='prontas') irProntas(); else if(k==='montar') irMontar(); else irLista(k);
+});
+$('#logo-b').onclick = irInicio;
+$('#voltar-ini').onclick = () => { if(history.state && history.state.gg) history.back(); else irInicio(); };
+
+/* ---- busca no topo ---- */
+let buscaVolta = 'home';
+function limpaBusca(){ if(!busca && !$('#busca').value) return; $('#busca').value=''; busca=''; $('#busca-x').hidden=true; }
+$('#busca').addEventListener('input',e=>{
+  const v=e.target.value.trim(); $('#busca-x').hidden=!e.target.value;
+  if(v && !busca){ buscaVolta = tela; if(view!=='produtos') setView('produtos'); }
+  busca=sa(v);
+  if(busca){ if(tela!=='lista') mostraTela('lista'); else { renderChips(); renderCatalogo(); } }
+  else { if(buscaVolta==='home') mostraTela('home', true); else { renderChips(); renderCatalogo(); } }
+});
+$('#busca').addEventListener('keydown',e=>{ if(e.key==='Enter') e.target.blur(); });
+$('#busca-x').onclick = () => { limpaBusca(); if(buscaVolta==='home') mostraTela('home', true); else { renderChips(); renderCatalogo(); } $('#busca').focus(); };
+
+/* ---- banners: bolinhas acompanham o deslizar ---- */
+$('#bns').addEventListener('scroll',e=>{
+  const g=e.currentTarget, w=g.firstElementChild ? g.firstElementChild.offsetWidth+12 : 1, i=Math.round(g.scrollLeft/w);
+  $('#bn-dots').querySelectorAll('i').forEach((d,k)=>d.classList.toggle('on',k===i));
+},{passive:true});
+
+/* ---- menu lateral ---- */
+$('#menu-b').onclick = () => $('#dlg-menu').showModal();
+$('#menu-x').onclick = () => $('#dlg-menu').close();
+$('#dlg-menu').addEventListener('click',e=>{ if(e.target===e.currentTarget) e.currentTarget.close(); });
+$('#cart-b').onclick = () => { if(carrinho.length) abrirPedido(); else toast('Seu pedido ainda está vazio. Escolha um produto para começar.'); };
+
+/* ---- fotos das tábuas: vêm da página de tábuas (mesmo site), as mesmas fotos nos dois links ---- */
+const FOTOS = {};
+fetch('../tabuas/').then(r=>r.text()).then(t=>{
+  const doc=new DOMParser().parseFromString(t,'text/html');
+  ['im-hero','im-g1','im-g2','im-g3','im-g4','im-g5','im-g6'].forEach(id=>{ const i=doc.getElementById(id); if(i && i.getAttribute('src')) FOTOS[id]=i.getAttribute('src'); });
+  document.querySelectorAll('img[data-foto]').forEach(im=>{ const s=FOTOS[im.dataset.foto]; if(s){ im.src=s; im.hidden=false; } });
+  if(cliente) renderPortHome();
+}).catch(()=>{});
 
 function renderBar(){
   const n=carrinho.length;
-  $('#bar').hidden = !n;
+  $('#bar').hidden = !n; document.body.classList.toggle('com-pedido', !!n);
   $('#bar-n').textContent = n+(n===1?' item no pedido':' itens no pedido');
   $('#bar-t').textContent = 'Total estimado: '+brl(totalPedido());
+  const c=$('#cart-n'); c.hidden=!n; c.textContent=n;
 }
-function renderTudo(){ renderChips(); renderCatalogo(); renderBar(); }
+function renderTudo(){ renderDeps(); renderPortHome(); renderVitrines(); if(tela==='lista'){ renderChips(); renderCatalogo(); } renderBar(); }
 
 /* ============ DIÁLOGO DO PRODUTO ============ */
 let cur=null;
@@ -1120,42 +1404,47 @@ if(NATAL){
   document.getElementById('app').prepend(fita);
   const h = hojeSP(), Y = +h.slice(0,4), md = h.slice(5);
   const fim = new Date(Y+'-'+FESTA.ate+'T23:59:59-03:00');
+  $('#bn1-b').classList.add('nt-btn'); $('#bn3-s').textContent='Presentes de fim de ano'; $('#bn1-h').textContent='Tábuas prontas para as festas';
   const tick = () => {
     const ms = fim.getTime()-Date.now();
     if(md>='11-01' && ms>0){
-      const d=Math.floor(ms/864e5), hh=Math.floor(ms%864e5/36e5), m=Math.floor(ms%36e5/6e4);
-      $('#nt-d').textContent=d; $('#nt-h').textContent=hh; $('#nt-m').textContent=m;
-      $('#nt-ey').textContent='Natal e Ano Novo · Pedidos para 24 e 31/12 até 10/12';
-      fita.innerHTML='Natal e Réveillon · Tábuas para 24 e 31/12: pedidos até <b>10 de dezembro</b> · '+(d>0?'faltam '+d+' dia'+(d>1?'s':''):'último dia!');
+      const d=Math.floor(ms/864e5);
+      const falta = d>0 ? 'faltam '+d+' dia'+(d>1?'s':'') : 'último dia!';
+      fita.innerHTML='Tábuas para 24 e 31/12: peça até <b>10 de dezembro</b> · '+falta;
+      $('#bn1-s').textContent='Natal e Réveillon';
+      $('#bn1-p').textContent='Para 4, 7 e 10 pessoas. Pedidos para 24 e 31/12 até 10/12, '+falta+'.';
+      $('#pr-s').textContent='Para a ceia e o réveillon';
       return;
     }
-    $('#nt-prazo').hidden=true; const f=$('#nt-fim'); f.hidden=false;
     if(md>='11-01'){
-      f.textContent='Os pedidos de tábuas para 24 e 31/12 foram encerrados. As outras datas seguem normalmente, com 1 dia de antecedência.';
-      $('#nt-ey').textContent='Boas festas';
       fita.innerHTML='Feliz Natal e um próspero Ano Novo · Tábuas para outras datas: peça com <b>1 dia de antecedência</b>';
+      $('#bn1-s').textContent='Boas festas';
+      $('#bn1-p').textContent='Os pedidos para 24 e 31/12 encerraram. Para outras datas, peça com 1 dia de antecedência.';
+      $('#pr-s').textContent='Boas festas';
     } else {
-      f.textContent='Que '+Y+' traga mesa farta e boas companhias. Obrigado por estar com a Gran Gusto!';
-      $('#nt-ey').textContent='Feliz Ano Novo';
       fita.innerHTML='<b>Feliz '+Y+'!</b> · Obrigado por mais um ano com a Gran Gusto';
+      $('#bn1-s').textContent='Feliz Ano Novo'; $('#bn1-h').textContent='Tábuas prontas';
+      $('#bn1-p').textContent='Para 4, 7 e 10 pessoas, montadas no dia. Peça com 1 dia de antecedência.';
+      $('#pr-s').textContent='Feliz '+Y;
     }
   };
   tick(); setInterval(tick, 30000);
-  document.addEventListener('click', e=>{
-    const b=e.target.closest('[data-nt]'); if(!b) return;
-    if(b.dataset.nt==='prontas'){ tb=Object.assign(novoTb(),{modo:'portfolio',passo:'portfolio'}); }
-    else { tb=Object.assign(novoTb(),{modo:'custom',passo:'quem'}); }
-    setView('tabua');
-  });
-  /* fotos das tábuas: vêm da página de tábuas (mesmo site), para não pesar o catálogo */
-  fetch('../tabuas/').then(r=>r.text()).then(t=>{
-    const doc=new DOMParser().parseFromString(t,'text/html'), src=id=>{ const i=doc.getElementById(id); return i && i.getAttribute('src'); };
-    const hero=src('im-hero'); if(hero){ const im=$('#nt-img'); im.src=hero; im.hidden=false; }
-    const g=$('#nt-gal'), al=['Tábua com rosa de salame, uvas e morangos','Tábua com figos, presunto cru e brie','Tábua com kiwi, morangos, brie e frios','Duas tábuas com frios, uvas e figos'];
-    g.innerHTML=['im-g1','im-g2','im-g5','im-g6'].map((id,k)=>{ const s=src(id); return s?`<img src="${s}" alt="${al[k]}" loading="lazy">`:''; }).join('');
-    if(g.children.length) g.hidden=false;
-  }).catch(()=>{});
 }
+
+/* dados da loja no rodapé, no WhatsApp e nas vantagens (vêm do config.js) */
+(function(){
+  const w = digits(CFG.whatsapp), loc = w.replace(/^55/,'');
+  const fone = loc.length>=10 ? '('+loc.slice(0,2)+') '+loc.slice(2,loc.length-4)+'-'+loc.slice(-4) : loc;
+  const link = 'https://wa.me/'+w;
+  ['#wa','#m-wa','#rod-wa'].forEach(s=>{ const a=$(s); if(a) a.href=link; });
+  $('#rod-wa').textContent = fone;
+  $('#rod-end').textContent = CFG.enderecoLoja||'';
+  const cap = s => s ? s.charAt(0).toUpperCase()+s.slice(1) : '';
+  $('#rod-hor').innerHTML = 'Loja: '+esc(CFG.horarioLoja||'')+'<br>Entregas: '+esc(CFG.horarioEntrega||'');
+  $('#vt-hor').textContent = cap(CFG.horarioLoja||'');
+  const taxas = (CFG.bairros||[]).flatMap(b=>String(b[1]).split('/').map(Number)).filter(n=>n>0);
+  if(taxas.length) $('#vt-ent').textContent = 'Entrega a partir de '+brl(Math.min(...taxas)).replace(',00','');
+})();
 
 mostrar();
 </script>
